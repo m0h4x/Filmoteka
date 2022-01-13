@@ -1,0 +1,8 @@
+.home-btns,
+.library-btns {
+  display: none;
+}
+.home-btns.active,
+.library-btns.active {
+  display: block;
+}
