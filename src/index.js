@@ -4,6 +4,7 @@ import { showModal } from './js/modal-film';
 import { loadStorage } from './js/loadStorage';
 import { fetchImages, fetchPopularImages } from './js/fetchImages';
 import { makeGallery } from './js/makeGallery';
+import filmCard from './js/filmCard';
 // Импорт HTTP клиента
 import axios from 'axios';
 // Импорт библиотеки пагинации
@@ -55,6 +56,13 @@ const viewLibrary = event => {
   flow({ view: 'library' });
 };
 
+document.addEventListener('DOMContentLoaded', function () {
+  const data = films.map(film => {
+    return filmCard({ title: film.title });
+  });
+  flow({ view: 'main', work: 'idle' }, data);
+});
+
 logo.addEventListener('click', viewMain);
 homeBtn.addEventListener('click', viewMain);
 libraryBtn.addEventListener('click', viewLibrary);
@@ -91,6 +99,7 @@ function flow(parameter, data) {
     //library = loadStorage();
     //films = fetchPopularImages();
     //makeGallery(films);
+    gallery.innerHTML = data;
   }
 
   if (state.work == 'loading') {
