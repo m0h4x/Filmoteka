@@ -4,6 +4,7 @@ import { showModal } from './js/modal-film';
 import { loadStorage } from './js/loadStorage';
 import { fetchImages, fetchPopularImages } from './js/fetchImages';
 import { makeGallery } from './js/makeGallery';
+import filmCard from './js/filmCard';
 // Импорт HTTP клиента
 import axios from 'axios';
 // Импорт библиотеки пагинации
@@ -13,6 +14,7 @@ import 'tui-pagination/dist/tui-pagination.css';
 import spin from 'spin/dist/spin.min';
 // Импорт библиотеки уведомлений
 import Notiflix from 'notiflix';
+import daylyFilms from './data/day.json';
 
 //объект состояния
 let state = {
@@ -55,6 +57,20 @@ const viewLibrary = event => {
   flow({ view: 'library' });
 };
 
+document.addEventListener('DOMContentLoaded', function () {
+  const data = daylyFilms.results
+    .filter(film => {
+      return film.title;
+    })
+    .map(film => {
+      const { id, poster_path, title, genre_ids, release_date } = film;
+      return filmCard({ id, poster_path, title, genre_ids, release_date });
+    })
+    .join('');
+
+  flow({ view: 'main', work: 'idle' }, data);
+});
+
 logo.addEventListener('click', viewMain);
 homeBtn.addEventListener('click', viewMain);
 libraryBtn.addEventListener('click', viewLibrary);
@@ -91,6 +107,7 @@ function flow(parameter, data) {
     //library = loadStorage();
     //films = fetchPopularImages();
     //makeGallery(films);
+    gallery.innerHTML = data;
   }
 
   if (state.work == 'loading') {
