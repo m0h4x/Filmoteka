@@ -3,8 +3,8 @@ import './sass/main.scss';
 import { showModal } from './js/modal-film';
 import { loadStorage } from './js/loadStorage';
 import { fetchImages, fetchPopularImages } from './js/fetchImages';
-import { makeGallery } from './js/makeGallery';
-import filmCard from './js/filmCard';
+import makeGallery from './js/makeGallery';
+
 // Импорт HTTP клиента
 import axios from 'axios';
 // Импорт библиотеки пагинации
@@ -14,6 +14,7 @@ import 'tui-pagination/dist/tui-pagination.css';
 import spin from 'spin/dist/spin.min';
 // Импорт библиотеки уведомлений
 import Notiflix from 'notiflix';
+// Импорт-заглушка для фильмов
 import daylyFilms from './data/day.json';
 
 //объект состояния
@@ -56,24 +57,19 @@ const viewLibrary = event => {
   event.preventDefault();
   flow({ view: 'library' });
 };
+const viewModal = event => {
+  event.preventDefault();
+  flow({ view: 'modal' });
+};
 
 document.addEventListener('DOMContentLoaded', function () {
-  const data = daylyFilms.results
-    .filter(film => {
-      return film.title;
-    })
-    .map(film => {
-      const { id, poster_path, title, genre_ids, release_date } = film;
-      return filmCard({ id, poster_path, title, genre_ids, release_date });
-    })
-    .join('');
-
-  flow({ view: 'main', work: 'idle' }, data);
+  flow({ view: 'main', work: 'find' }, daylyFilms.results);
 });
 
 logo.addEventListener('click', viewMain);
 homeBtn.addEventListener('click', viewMain);
 libraryBtn.addEventListener('click', viewLibrary);
+gallery.addEventListener('click', viewModal);
 
 //поток приложения, в котором реализована логика его работы
 function flow(parameter, data) {
@@ -92,6 +88,11 @@ function flow(parameter, data) {
     homeBtns.classList.remove('active');
   }
 
+  if (state.view == 'modal') {
+    //модалка
+    backdrop.classList.add('active');
+  }
+
   if (state.libary == 'watched') {
     films = library.watched;
     //makeGallery(films);
@@ -107,21 +108,22 @@ function flow(parameter, data) {
     //library = loadStorage();
     //films = fetchPopularImages();
     //makeGallery(films);
-    gallery.innerHTML = data;
   }
 
   if (state.work == 'loading') {
     //показываем загрузчик
   }
 
-  if (state.find == 'find') {
+  if (state.work == 'find') {
     //грузим галерею
     //films = fetchImages();
-    //makeGallery(films);
+    films = makeGallery(data);
   }
 
-  if (state.error == 'error') {
+  if (state.work == 'error') {
     //показываем ошибки
     Notiflix.Report.failure('Title', 'Failure Message');
   }
+
+  gallery.innerHTML = films;
 }
