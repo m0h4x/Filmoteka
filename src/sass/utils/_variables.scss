@@ -1,0 +1,28 @@
+$colors: (
+  'accent': #ff6b08,
+  'text-accent': #ff6b08,
+  'text-primary': #ffffff,
+  'text-secondary': #000000,
+  'text-thirty': #8c8c8c,
+  'text-error': #ff001b,
+  'text-footer': #545454,
+  'bg-primary': #ffffff,
+  'bg-footer': #f7f7f7,
+  'title-primary': #000000,
+  'icon-logo': #818181,
+  'icon-primary': #000000,
+  'button-text': #ffffff,
+  'button-text-active': #000000,
+  'button-active': #ff6b01,
+  'button-shadow': rgba(255, 107, 1, 0.6),
+  'button-border': #ffffff,
+  'input-border': #ffffff,
+  'input-placeholder': #ffffff,
+);
+
+@function getColor($key) {
+  @return map-get($colors, $key);
+}
+
+$animation-cubic: cubic-bezier(0.4, 0, 0.2, 1);
+$animation-delay: 250ms;

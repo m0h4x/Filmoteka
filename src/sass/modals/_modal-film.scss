@@ -1,0 +1,6 @@
+.modal__backdrop {
+  display: none;
+}
+.modal__backdrop.active {
+  display: block;
+}
