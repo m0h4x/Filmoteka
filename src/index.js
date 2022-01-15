@@ -4,6 +4,7 @@ import { showModal } from './js/modal-film';
 import { loadStorage } from './js/loadStorage';
 import { fetchImages, fetchPopularImages } from './js/fetchImages';
 import makeGallery from './js/makeGallery';
+import renderTopFilms from './js/topFilmsComponent';
 
 // Импорт HTTP клиента
 import axios from 'axios';
@@ -80,6 +81,7 @@ function flow(parameter, data) {
     //главная страница
     homeBtns.classList.add('active');
     libraryBtns.classList.remove('active');
+    films = renderTopFilms();
   }
 
   if (state.view == 'library') {
