@@ -50,12 +50,12 @@ export function flow(parameter, data) {
   }
 
   if (state.libary == 'watched') {
-    films = library.watched;
+    //films = library.watched;
     //makeGallery(films);
   }
 
   if (state.libary == 'queve') {
-    films = library.watched;
+    //films = library.watched;
     //makeGallery(films);
   }
 
