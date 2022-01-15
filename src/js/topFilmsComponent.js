@@ -3,14 +3,12 @@ import makeGallery from './makeGallery';
 
 const api = new ApiService();
 
-export function renderTopFilms() {
-  let temp;
+export function renderTopFilms(callback) {
   api
     .fetchTrendingFilms()
     .then(data => {
-      temp = makeGallery(data);
+      callback({ view: 'main', work: 'find' }, data);
     })
     .catch(console.log);
-  return temp;
 }
 export default renderTopFilms;

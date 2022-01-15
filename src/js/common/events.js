@@ -4,6 +4,8 @@ import { flow } from './flow';
 import renderTopFilms from '../topFilmsComponent';
 // Импорт-заглушка для фильмов
 import daylyFilms from '../../data/day.json';
+//функция для задержки выполнения
+import debounce from 'lodash/debounce';
 
 //обработчики событий
 export const viewMain = event => {
@@ -21,8 +23,10 @@ export const viewModal = event => {
   }
 };
 
+const debounced = debounce(() => renderTopFilms(flow), 300);
+
 export const firstLoad = event => {
   flow({ view: 'main', work: 'loading' });
-  console.log(renderTopFilms());
+  debounced();
   //flow({ view: 'main', work: 'find' }, renderTopFilms().results);
 };

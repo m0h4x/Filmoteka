@@ -68,14 +68,14 @@ export function flow(parameter, data) {
 
   if (state.work == 'loading') {
     //показываем загрузчик
-    //gallery.innerHTML = '<li>Loading...</li>';
-    console.log('Loading...');
+    gallery.innerHTML = '<li>Loading...</li>';
   }
 
   if (state.work == 'find') {
     //грузим галерею
     //films = fetchImages();
-    films = data;
+    films = data.results;
+    gallery.innerHTML = makeGallery(films);
   }
 
   if (state.work == 'error') {
