@@ -1,5 +1,7 @@
 //поток приложения, в котором реализована логика его работы
 import { flow } from './flow';
+//функция для получения популярных фильмов
+import renderTopFilms from '../topFilmsComponent';
 // Импорт-заглушка для фильмов
 import daylyFilms from '../../data/day.json';
 
@@ -20,5 +22,7 @@ export const viewModal = event => {
 };
 
 export const firstLoad = event => {
-  flow({ view: 'main', work: 'find' }, daylyFilms.results);
+  flow({ view: 'main', work: 'loading' });
+  console.log(renderTopFilms());
+  //flow({ view: 'main', work: 'find' }, renderTopFilms().results);
 };

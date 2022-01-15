@@ -63,23 +63,23 @@ export function flow(parameter, data) {
     //начальное состояние, загружаем библиотеку
     //library = loadStorage();
     //films = fetchPopularImages();
-    //makeGallery(films);
+    gallery.innerHTML = makeGallery(films);
   }
 
   if (state.work == 'loading') {
     //показываем загрузчик
+    //gallery.innerHTML = '<li>Loading...</li>';
+    console.log('Loading...');
   }
 
   if (state.work == 'find') {
     //грузим галерею
     //films = fetchImages();
-    films = makeGallery(data);
+    films = data;
   }
 
   if (state.work == 'error') {
     //показываем ошибки
     Notiflix.Report.failure('Title', 'Failure Message');
   }
-
-  gallery.innerHTML = films;
 }
