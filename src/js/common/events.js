@@ -6,11 +6,11 @@ import daylyFilms from '../../data/day.json';
 //обработчики событий
 export const viewMain = event => {
   event.preventDefault();
-  flow({ view: 'main' });
+  flow({ view: 'main', work: 'idle' });
 };
 export const viewLibrary = event => {
   event.preventDefault();
-  flow({ view: 'library' });
+  flow({ view: 'library', work: 'idle' });
 };
 export const viewModal = event => {
   event.preventDefault();
