@@ -2,6 +2,8 @@
 import Notiflix from 'notiflix';
 // Импорт обработчика ответа от сервера
 import makeGallery from '../makeGallery';
+// Импорт класса для сохранения в сессии
+import sStorage from '../sessionStorage';
 
 //объект состояния
 export let state = {
@@ -14,16 +16,17 @@ export let state = {
 };
 
 //глобальные переменные
-export let page = 1;
-export let maxPages = 1;
-export let error = '';
-export let query = '';
-export const LIMIT = 20;
-export let library = {
+let page = 1;
+let maxPages = 1;
+let error = '';
+let query = '';
+const LIMIT = 20;
+let library = {
   watched: [],
   queve: [],
 };
-export let films = [];
+let films = [];
+const FILMS = 'Filmoteka_Films';
 
 //элементы страницы
 import { backdrop, homeBtns, libraryBtns, gallery } from './elements';
@@ -74,6 +77,7 @@ export function flow(parameter, data) {
     //грузим галерею
     //films = fetchImages();
     films = makeGallery(data);
+    sStorage.save(FILMS, data);
   }
 
   if (state.work == 'error') {
