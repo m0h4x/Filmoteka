@@ -26,7 +26,7 @@ export let library = {
 export let films = [];
 
 //элементы страницы
-import { backdrop, homeBtns, libraryBtns, gallery } from './elements';
+import { backdrop, modalContainer, homeBtns, libraryBtns, gallery } from './elements';
 
 export function flow(parameter, data) {
   //меняет состояние
@@ -47,6 +47,7 @@ export function flow(parameter, data) {
   if (state.view == 'modal') {
     //модалка
     backdrop.classList.add('active');
+    modalContainer.classList.add('active');
   }
 
   if (state.libary == 'watched') {
