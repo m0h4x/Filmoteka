@@ -26,7 +26,6 @@ let library = {
   queve: [],
 };
 let films = [];
-const FILMS = 'Filmoteka_Films';
 
 //элементы страницы
 import { backdrop, homeBtns, libraryBtns, gallery } from './elements';
@@ -77,7 +76,7 @@ export function flow(parameter, data) {
     //грузим галерею
     //films = fetchImages();
     films = makeGallery(data);
-    sStorage.save(FILMS, data);
+    sStorage.saveFilms(data);
   }
 
   if (state.work == 'error') {

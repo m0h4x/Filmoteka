@@ -1,3 +1,4 @@
+const FILMS = 'Filmoteka_Films';
 class sStorage {
   static save = (key, value) => {
     try {
@@ -22,10 +23,18 @@ class sStorage {
       console.error('Get state error: ', error.message);
     }
   };
-  static getFilm = (key, id) => {
+  static saveFilms = (value) => {
+    try {
+      const serializedState = JSON.stringify(value);
+      sessionStorage.setItem(FILMS, serializedState);
+    } catch (error) {
+      console.error('Set state error: ', error.message);
+    }
+  };
+  static getFilm = id => {
     try {
       const filmId = id;
-      const serializedState = sessionStorage.getItem(key);
+      const serializedState = sessionStorage.getItem(FILMS);
       return serializedState === null
         ? undefined
         : JSON.parse(serializedState).filter(film => {

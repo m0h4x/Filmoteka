@@ -5,5 +5,4 @@ closeBtn.addEventListener('click', () => {
 });
 // Импорт класса для сохранения в сессии
 import sStorage from './sessionStorage';
-const FILMS = 'Filmoteka_Films';
-console.log(sStorage.getFilm(FILMS, 524434));
+console.log(sStorage.getFilm(524434));
