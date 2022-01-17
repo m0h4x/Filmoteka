@@ -27,10 +27,14 @@ export let films = [];
 
 //элементы страницы
 import { backdrop, modalContainer, homeBtns, libraryBtns, gallery } from './elements';
+import filmModalHandler from '../modal-film';
 
 export function flow(parameter, data) {
   //меняет состояние
-  state = { ...state, ...parameter };
+  state = {
+    ...state,
+    ...parameter
+  };
 
   if (state.view == 'main') {
     //главная страница
@@ -83,4 +87,5 @@ export function flow(parameter, data) {
   }
 
   gallery.innerHTML = films;
+  filmModalHandler();
 }
