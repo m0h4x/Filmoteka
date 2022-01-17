@@ -1,9 +1,6 @@
 import * as basicLightbox from 'basiclightbox';
 import 'basicLightbox/dist/basicLightbox.min.css';
-import {
-  // modalTemplate,
-  gallery
-} from './common/elements';
+import { gallery } from './common/elements';
 
 console.log('gallery', gallery);
 

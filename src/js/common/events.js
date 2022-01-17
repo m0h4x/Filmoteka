@@ -19,12 +19,14 @@ export const viewLibrary = event => {
     view: 'library',
     work: 'idle'
   });
+  flow({ view: 'library', work: 'idle' });
 };
 // export const viewModal = event => {
 //   event.preventDefault();
-//   flow({ view: 'modal', work: 'idle' });
+//   if (event.target !== event.currentTarget) {
+//     flow({ view: 'modal', work: 'idle' });
+//   }
 // };
-
 export const firstLoad = event => {
   flow({
     view: 'main',
