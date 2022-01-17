@@ -1,32 +1,31 @@
-const FILMS = 'Filmoteka_Films';
-class sStorage {
+class lStorage {
   static save = (key, value) => {
     try {
       const serializedState = JSON.stringify(value);
-      sessionStorage.setItem(key, serializedState);
+      localStorage.setItem(key, serializedState);
     } catch (error) {
       console.error('Set state error: ', error.message);
     }
   };
   static remove = key => {
     try {
-      sessionStorage.removeItem(key);
+      localStorage.removeItem(key);
     } catch (error) {
       console.error('Set state error: ', error.message);
     }
   };
   static load = key => {
     try {
-      const serializedState = sessionStorage.getItem(key);
+      const serializedState = localStorage.getItem(key);
       return serializedState === null ? undefined : JSON.parse(serializedState);
     } catch (error) {
       console.error('Get state error: ', error.message);
     }
   };
-  static saveFilms = (value) => {
+  static saveFilms = value => {
     try {
       const serializedState = JSON.stringify(value);
-      sessionStorage.setItem(FILMS, serializedState);
+      localStorage.setItem(FILMS, serializedState);
     } catch (error) {
       console.error('Set state error: ', error.message);
     }
@@ -34,7 +33,7 @@ class sStorage {
   static getFilm = id => {
     try {
       const filmId = id;
-      const serializedState = sessionStorage.getItem(FILMS);
+      const serializedState = localStorage.getItem(FILMS);
       return serializedState === null
         ? undefined
         : JSON.parse(serializedState).filter(film => {
@@ -46,4 +45,4 @@ class sStorage {
   };
 }
 
-export default sStorage;
+export default lStorage;

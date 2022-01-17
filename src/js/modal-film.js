@@ -5,6 +5,3 @@ closeBtn.addEventListener('click', () => {
   backdrop.classList.remove('active');
   modalContainer.classList.remove('active');
 });
-// Импорт класса для сохранения в сессии
-import sStorage from './sessionStorage';
-console.log(sStorage.getFilm(524434));
