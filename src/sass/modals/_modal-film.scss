@@ -1,5 +1,5 @@
 .modal__backdrop {
-  display: none;
+  // display: none;
 }
 
 .modal__backdrop.active {
@@ -11,13 +11,16 @@
   max-width: 280px;
   padding: 48px 20px;
   // border: 1px solid blueviolet;
+  background-color: #fff;
 
   @media screen and (min-width: 768px) {
     max-width: 618px;
+    padding: 48px 28px;
   }
 
   @media screen and (min-width: 1200px) {
     max-width: 882px;
+    padding: 48px 30px;
   }
 }
 
@@ -34,7 +37,7 @@
 .modal-wrapper {
   @media screen and (min-width: 768px) {
     display: flex;
-    flex: row wrap;
+    flex-flow: row nowrap;
     gap: 32px
   }
 
@@ -52,7 +55,10 @@
 
   img {
     border-radius: 5px;
-    margin-bottom: 30px;
+
+    @media screen and (min-width: 320px) and (max-width: 767px) {
+      margin-bottom: 30px;
+    }
   }
 }
 
@@ -60,11 +66,11 @@
   color: #000000;
 
   @media screen and (min-width: 768px) {
-    flex: 1 1 calc(100% - 264px);
+    flex: 1 1 calc(100% - 296px);
   }
 
   @media screen and (min-width: 1200px) {
-    flex: 1 1 calc(100% - 396px);
+    flex: 1 1 calc(100% - 428px);
   }
 
   h3 {
@@ -144,7 +150,7 @@
     line-height: 14px;
     flex: 0 1 calc(100% - 108px);
 
-    span {
+    [data-attr="avg-rating"] {
       display: inline-block;
       padding: 1px 8px;
       color: #ffffff;
