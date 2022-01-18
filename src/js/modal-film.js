@@ -1,6 +1,9 @@
 import * as basicLightbox from 'basiclightbox';
 import 'basiclightbox/dist/basicLightbox.min.css';
-import { gallery } from './common/elements';
+import {
+  gallery
+} from './common/elements';
+import genreParseHandler from './genreParser';
 
 console.log('gallery', gallery);
 
@@ -24,7 +27,7 @@ const filmModalHandler = () => {
       origTitle: card.querySelector('.film__title').dataset.origTitle,
       voteAvg: card.querySelector('.film__info').dataset.voteAverage,
       voteCnt: card.querySelector('.film__info').dataset.voteCount,
-      genre: card.querySelector('.film__genre').innerHTML,
+      genre: card.querySelector('.film__genre').dataset.genreIds,
       popularity: card.querySelector('.film__info').dataset.popularity,
       overview: card.querySelector('.film__info').dataset.overview,
     };
@@ -33,13 +36,18 @@ const filmModalHandler = () => {
 
     const modalTemplate = document.querySelector('#modalFilmTemplate');
 
+    // converting genre id items from string to numbered array
+    const genreIdsArray = data.genre.split(',').map(item => {
+      return parseInt(item);
+    });
+
 
     modalTemplate.content.querySelector('.modal-image img').src = data.poster_path;
     modalTemplate.content.querySelector('.modal-content h3').textContent = data.title;
     modalTemplate.content.querySelector('[data-attr="orig-title"]').textContent = data.origTitle;
     modalTemplate.content.querySelector('[data-attr="avg-rating"]').textContent = data.voteAvg;
     modalTemplate.content.querySelector('[data-attr="vote-count"]').textContent = data.voteCnt;
-    modalTemplate.content.querySelector('[data-attr="genre"]').textContent = data.genre;
+    modalTemplate.content.querySelector('[data-attr="genre"]').textContent = genreParseHandler(genreIdsArray);
     modalTemplate.content.querySelector('[data-attr="popularity"]').textContent = data.popularity;
     modalTemplate.content.querySelector('[data-attr="overview"]').textContent = data.overview;
 
