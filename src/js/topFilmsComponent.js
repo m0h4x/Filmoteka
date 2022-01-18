@@ -4,11 +4,11 @@ import makeGallery from "./makeGallery"
 
 const api = new ApiService();
 
-export function renderTopFilms()
+export function renderTopFilms(page = 1)
 {
-     return api.fetchTrendingFilms().then(
+     return api.fetchTrendingFilms(page).then(
         data=>{
-            return  makeGallery(data.results);
+            return makeGallery(data);
         }
     ).catch(console.log);
 }

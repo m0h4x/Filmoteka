@@ -10,6 +10,8 @@ import makeGallery from './makeGallery';
 import filmModalHandler from './modal-film';
 import renderTopFilms from './topFilmsComponent'
 
+//TODO: add logic for pagination
+
 //меняет разметку галереи и добавляет код открытия модалки
 const viewGallery = () => {
   
@@ -20,25 +22,26 @@ const viewGallery = () => {
 };
 
 export default viewGallery;
+
 function renderLocal(){
   const data = sStorage.loadFilms();
   let fullGallery = '';
   if (data) {
     fullGallery += makeGallery(data);
-    filmModalHandler();
     //modalBtnWatched.addEventListener('click', toggleWatched);
     //modalBtnQueue.addEventListener('click', toggleQueue);
   }
   gallery.innerHTML = fullGallery;
+  filmModalHandler();
 }
 function renderReady(topFilms){
   const data = sStorage.loadFilms();
   let fullGallery = topFilms;
   if (data) {
     fullGallery += makeGallery(data);
-    filmModalHandler();
     //modalBtnWatched.addEventListener('click', toggleWatched);
     //modalBtnQueue.addEventListener('click', toggleQueue);
   }
   gallery.innerHTML = fullGallery;
+  filmModalHandler();
 }
