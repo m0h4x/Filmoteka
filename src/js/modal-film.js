@@ -1,5 +1,5 @@
 import * as basicLightbox from 'basiclightbox';
-import 'basicLightbox/dist/basicLightbox.min.css';
+import 'basiclightbox/dist/basicLightbox.min.css';
 import { gallery } from './common/elements';
 
 console.log('gallery', gallery);

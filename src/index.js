@@ -7,8 +7,7 @@ import { fetchImages, fetchPopularImages } from './js/fetchImages';
 // Импорт HTTP клиента
 import axios from 'axios';
 // Импорт библиотеки пагинации
-import Pagination from 'tui-pagination';
-import 'tui-pagination/dist/tui-pagination.css';
+import pagination from './js/pagination';
 // Импорт библиотеки спиннера
 import spin from 'spin/dist/spin.min';
 
