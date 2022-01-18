@@ -2,8 +2,11 @@
 import viewGallery from '../viewGallery';
 //импорт функции для сохранения в локальной сессии
 import sStorage from '../storage/sessionStorage';
+// Импорт библиотеки пагинации
+import pagination from '../pagination';
 // импорт функции для запроса на список самых популярных фильмов на сегодня
 import renderTopFilms from '../topFilmsComponent';
+
 //элементы страницы
 import { backdrop, modalContainer, homeForm, libraryBtns, gallery } from './elements';
 
@@ -48,6 +51,7 @@ function renderReady(topFilms, total_results) {
   results = total_results;
   films = topFilms;
   if (films) {
+    pagination.setTotalItems(results);
     viewGallery(films);
   }
 }
@@ -58,5 +62,6 @@ export const changePage = eventData => {
 
 //срабатывает при первой загрузке
 export const firstLoad = event => {
-  renderTopFilms(1, renderReady, renderError);
+  pagination.on('beforeMove', changePage);
+  renderTopFilms(page, renderReady, renderError);
 };

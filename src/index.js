@@ -5,8 +5,6 @@ import { fetchImages, fetchPopularImages } from './js/fetchImages';
 
 // Импорт HTTP клиента
 import axios from 'axios';
-// Импорт библиотеки пагинации
-import pagination from './js/pagination';
 // Импорт библиотеки спиннера
 import spin from 'spin/dist/spin.min';
 
@@ -20,4 +18,3 @@ logo.addEventListener('click', viewMain);
 homeBtn.addEventListener('click', viewMain);
 libraryBtn.addEventListener('click', viewLibrary);
 document.addEventListener('DOMContentLoaded', firstLoad);
-pagination.on('beforeMove', changePage);
