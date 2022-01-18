@@ -6,8 +6,8 @@ const makeGallery = results => {
       return film.title;
     })
     .map(film => {
-      const { id, poster_path, title, genre_ids, release_date } = film;
-      return filmCard({ id, poster_path, title, genre_ids, release_date });
+      const { release_date } = film;
+      return filmCard({ ...film, release_date: release_date.split('-')[0] });
     })
     .join('');
   return data;
