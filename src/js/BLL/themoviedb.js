@@ -8,7 +8,7 @@ export const ApiService = class {
     const response = await axios.get(
       `${API.BASIC_URL}/3/trending/movie/day?api_key=${API.KEY}&page=${page}`,
     );
-    return response.data.results;
+    return response.data;
   }
   async getGenres() {
     const response = await axios.get(`${API.BASIC_URL}/3/genre/movie/list?api_key=${API.KEY}`);
@@ -18,6 +18,6 @@ export const ApiService = class {
     const response = await axios.get(
       `${API.BASIC_URL}/3/search/movie?api_key=${API.KEY}&language=en-US&query=${searchQuery}&page=${page}`,
     );
-    return response.data.results;
+    return response.data;
   }
 };

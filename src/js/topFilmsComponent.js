@@ -32,11 +32,12 @@ function mixGenres(genres, films) {
 export default function renderTopFilms(page = 1, apiReady, apiError) {
   api
     .fetchTrendingFilms(page)
-    .then(films => {
+    .then(data => {
+      const { total_pages, total_results, results } = data;
       api
         .getGenres()
         .then(genres => {
-          apiReady(mixGenres(genres, films));
+          apiReady(mixGenres(genres, results), total_results);
         })
         .catch(error => {
           apiError(error);

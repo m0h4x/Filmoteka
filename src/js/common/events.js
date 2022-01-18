@@ -44,7 +44,8 @@ function renderError(error) {
   console.log(error.message);
 }
 //срабатывает при успешном завершении запроса
-function renderReady(topFilms) {
+function renderReady(topFilms, total_results) {
+  maxPages = total_results;
   films = topFilms;
   if (films) {
     viewGallery(films);
