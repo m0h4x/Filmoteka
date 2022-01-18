@@ -8,7 +8,7 @@ export function renderTopFilms()
 {
      return api.fetchTrendingFilms().then(
         data=>{
-            return  makeGallery(data);
+            return  makeGallery(data.results);
         }
     ).catch(console.log);
 }

@@ -31,9 +31,9 @@ function renderLocal(){
   }
   gallery.innerHTML = fullGallery;
 }
-function renderReady(dataFromService){
+function renderReady(topFilms){
   const data = sStorage.loadFilms();
-  let fullGallery = makeGallery(dataFromService.results);
+  let fullGallery = topFilms;
   if (data) {
     fullGallery += makeGallery(data);
     filmModalHandler();
