@@ -8,15 +8,37 @@ import sStorage from './storage/sessionStorage';
 import makeGallery from './makeGallery';
 // импорт функции для показа модалки
 import filmModalHandler from './modal-film';
+import renderTopFilms from './topFilmsComponent'
 
 //меняет разметку галереи и добавляет код открытия модалки
 const viewGallery = () => {
+  
+  const topFilms = renderTopFilms()
+  .then(renderReady)
+  .catch(renderLocal);
+  
+};
+
+export default viewGallery;
+function renderLocal(){
   const data = sStorage.loadFilms();
+  let fullGallery = '';
   if (data) {
-    gallery.innerHTML = makeGallery(data);
+    fullGallery += makeGallery(data);
     filmModalHandler();
     //modalBtnWatched.addEventListener('click', toggleWatched);
     //modalBtnQueue.addEventListener('click', toggleQueue);
   }
-};
-export default viewGallery;
+  gallery.innerHTML = fullGallery;
+}
+function renderReady(dataFromService){
+  const data = sStorage.loadFilms();
+  let fullGallery = makeGallery(dataFromService.results);
+  if (data) {
+    fullGallery += makeGallery(data);
+    filmModalHandler();
+    //modalBtnWatched.addEventListener('click', toggleWatched);
+    //modalBtnQueue.addEventListener('click', toggleQueue);
+  }
+  gallery.innerHTML = fullGallery;
+}

@@ -6,12 +6,10 @@ const api = new ApiService();
 
 export function renderTopFilms()
 {
-    let temp;
-    api.fetchTrendingFilms().then(
+     return api.fetchTrendingFilms().then(
         data=>{
-            temp = makeGallery(data);
+            return  makeGallery(data);
         }
     ).catch(console.log);
-    return temp;
 }
-export default topFilms;
+export default renderTopFilms;
