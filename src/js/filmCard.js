@@ -1,4 +1,13 @@
 import defaultImage from '../images/no-cover.jpg';
+const decorGenres = genres => {
+  return genres.length < 2
+    ? genres.join(', ')
+    : genres
+        .filter((item, i, arr) => {
+          return i < 2;
+        })
+        .join(', ') + '...';
+};
 const filmCard = film => {
   const baseImgUrl = 'https://image.tmdb.org/t/p/w342';
   const {
@@ -10,17 +19,18 @@ const filmCard = film => {
     vote_count,
     overview,
     popularity,
-    genre_ids,
+    genres,
     release_date,
   } = film;
   const image = poster_path ? baseImgUrl + poster_path : defaultImage;
+  const filmGenres = decorGenres(genres);
   return `<li class="film__card" data-modal-id=${id}>
   <a class="film__link" href="#">
     <img class="film__cover" src="${image}" alt="${title}" />
     <h3 class="film__title" data-orig-title="${original_title}">${title}</h3>
     <div class="film__info" data-vote-average="${vote_average}" data-vote-count="${vote_count}"
       data-popularity="${popularity}" data-overview="${overview}">
-      <span class="film__genre">${genre_ids}</span>
+      <span class="film__genre" data-genres="${genres}">${filmGenres}</span>
       <span class="film__year">&nbsp${release_date}</span>
     </div>
   </a>

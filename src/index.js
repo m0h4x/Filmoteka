@@ -14,9 +14,10 @@ import spin from 'spin/dist/spin.min';
 import { logo, homeBtn, libraryBtn, gallery } from './js/common/elements';
 
 //обработчики событий
-import { viewMain, viewLibrary, viewModal, firstLoad } from './js/common/events';
+import { viewMain, viewLibrary, changePage, firstLoad } from './js/common/events';
 
 logo.addEventListener('click', viewMain);
 homeBtn.addEventListener('click', viewMain);
 libraryBtn.addEventListener('click', viewLibrary);
 document.addEventListener('DOMContentLoaded', firstLoad);
+pagination.on('beforeMove', changePage);
