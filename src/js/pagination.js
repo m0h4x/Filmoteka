@@ -1,6 +1,7 @@
 import Pagination from 'tui-pagination';
 
 // TODO:
+//total pages is calcalated as totalItems/itemsPerPage
 // in events should be variable that will be used for pagination render
 // totalItems -> could be taken from result of API cal
 // itemsPerPage ->  should be calculted as length of result list
@@ -19,21 +20,19 @@ const options = {
     currentPage: '<strong class="tui-page-btn tui-is-selected">{{page}}</strong>',
     moveButton:
       '<a href="#" class="tui-page-btn tui-{{type}}">' +
-        '<span class="tui-ico-{{type}}">{{type}}</span>' +
+      '<span class="tui-ico-{{type}}">{{type}}</span>' +
       '</a>',
     disabledMoveButton:
       '<span class="tui-page-btn tui-is-disabled tui-{{type}}">' +
-        '<span class="tui-ico-{{type}}">{{type}}</span>' +
+      '<span class="tui-ico-{{type}}">{{type}}</span>' +
       '</span>',
     moreButton:
-      '<a href="#" class="tui-page-btn tui-{{type}}-is-ellip">' +
-        '<span>⋅⋅⋅</span>' +
-      '</a>'
-  }
+      '<a href="#" class="tui-page-btn tui-{{type}}-is-ellip">' + '<span>⋅⋅⋅</span>' + '</a>',
+  },
 };
 
 const pagination = new Pagination('pagination', options);
-
+export default pagination;
 //TODO
 // event listener for buttons
 // default example:

@@ -8,40 +8,13 @@ import sStorage from './storage/sessionStorage';
 import makeGallery from './makeGallery';
 // импорт функции для показа модалки
 import filmModalHandler from './modal-film';
-import renderTopFilms from './topFilmsComponent'
 
 //TODO: add logic for pagination
 
 //меняет разметку галереи и добавляет код открытия модалки
-const viewGallery = () => {
-  
-  const topFilms = renderTopFilms()
-  .then(renderReady)
-  .catch(renderLocal);
-  
+const viewGallery = films => {
+  gallery.innerHTML = makeGallery(films);
+  filmModalHandler();
 };
 
 export default viewGallery;
-
-function renderLocal(){
-  const data = sStorage.loadFilms();
-  let fullGallery = '';
-  if (data) {
-    fullGallery += makeGallery(data);
-    //modalBtnWatched.addEventListener('click', toggleWatched);
-    //modalBtnQueue.addEventListener('click', toggleQueue);
-  }
-  gallery.innerHTML = fullGallery;
-  filmModalHandler();
-}
-function renderReady(topFilms){
-  const data = sStorage.loadFilms();
-  let fullGallery = topFilms;
-  if (data) {
-    fullGallery += makeGallery(data);
-    //modalBtnWatched.addEventListener('click', toggleWatched);
-    //modalBtnQueue.addEventListener('click', toggleQueue);
-  }
-  gallery.innerHTML = fullGallery;
-  filmModalHandler();
-}

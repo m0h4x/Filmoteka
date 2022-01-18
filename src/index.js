@@ -5,8 +5,6 @@ import { fetchImages, fetchPopularImages } from './js/fetchImages';
 
 // Импорт HTTP клиента
 import axios from 'axios';
-// Импорт библиотеки пагинации
-import pagination from './js/pagination';
 // Импорт библиотеки спиннера
 import spin from 'spin/dist/spin.min';
 
@@ -14,7 +12,7 @@ import spin from 'spin/dist/spin.min';
 import { logo, homeBtn, libraryBtn, gallery } from './js/common/elements';
 
 //обработчики событий
-import { viewMain, viewLibrary, viewModal, firstLoad } from './js/common/events';
+import { viewMain, viewLibrary, changePage, firstLoad } from './js/common/events';
 
 logo.addEventListener('click', viewMain);
 homeBtn.addEventListener('click', viewMain);
