@@ -9,7 +9,7 @@ import { backdrop, modalContainer, homeForm, libraryBtns, gallery } from './elem
 
 //глобальные переменные
 let page = 1;
-let maxPages = 1;
+let results = 1;
 let error = '';
 let query = '';
 const LIMIT = 20;
@@ -45,7 +45,7 @@ function renderError(error) {
 }
 //срабатывает при успешном завершении запроса
 function renderReady(topFilms, total_results) {
-  maxPages = total_results;
+  results = total_results;
   films = topFilms;
   if (films) {
     viewGallery(films);
