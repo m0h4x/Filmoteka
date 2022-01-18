@@ -13,13 +13,22 @@ import 'tui-pagination/dist/tui-pagination.css';
 import spin from 'spin/dist/spin.min';
 
 //элементы страницы
-import { logo, homeBtn, libraryBtn, gallery } from './js/common/elements';
+import { logo, homeBtn, libraryBtn, btnWatched, btnQueue, gallery } from './js/common/elements';
 
 //обработчики событий
-import { viewMain, viewLibrary, viewModal, firstLoad } from './js/common/events';
+import {
+  viewMain,
+  viewLibrary,
+  viewModal,
+  viewWatched,
+  viewQueue,
+  firstLoad,
+} from './js/common/events';
 
 logo.addEventListener('click', viewMain);
 homeBtn.addEventListener('click', viewMain);
 libraryBtn.addEventListener('click', viewLibrary);
+btnWatched.addEventListener('click', viewWatched);
+btnQueue.addEventListener('click', viewQueue);
 gallery.addEventListener('click', viewModal);
 document.addEventListener('DOMContentLoaded', firstLoad);

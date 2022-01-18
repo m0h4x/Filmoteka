@@ -18,11 +18,9 @@
   }
 }
 
-.film__card {
-}
+.film__card {}
 
-.film__link {
-}
+.film__link {}
 
 .film__cover {
   border-radius: 5px;
@@ -35,11 +33,13 @@
   text-transform: uppercase;
   @include font(12px, 16px, 500);
 }
+
 .film__title {
   margin-top: 10px;
   color: getColor('text-secondary');
   text-transform: uppercase;
 }
+
 .film__info {
   color: getColor('text-accent');
 }
