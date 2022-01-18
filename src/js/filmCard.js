@@ -1,5 +1,4 @@
 import defaultImage from '../images/no-cover.jpg';
-import genreParseHandler from './genreParser';
 const decorGenres = genres => {
   return genres.length < 2
     ? genres.join(', ')
@@ -32,7 +31,7 @@ const filmCard = film => {
     <h3 class="film__title" data-orig-title="${original_title}">${title}</h3>
     <div class="film__info" data-vote-average="${vote_average}" data-vote-count="${vote_count}"
       data-popularity="${popularity}" data-overview="${overview}">
-      <span class="film__genre" data-genres-ids="${genres}">${filmGenres}</span>
+      <span class="film__genre" data-genres="${genres.join(', ')}">${filmGenres}</span>
       <span class="film__year">&nbsp${release_date}</span>
     </div>
   </a>
