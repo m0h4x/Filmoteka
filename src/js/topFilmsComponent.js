@@ -6,7 +6,7 @@ const api = new ApiService();
 
 export function renderTopFilms()
 {
-    const temp;
+    let temp;
     api.fetchTrendingFilms().then(
         data=>{
             temp = makeGallery(data);
