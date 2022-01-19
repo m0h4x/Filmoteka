@@ -1,5 +1,5 @@
 const FILMS = 'Filmoteka_Films';
-class sStorage {
+class SessionStorage {
   static save = (key, value) => {
     try {
       const serializedState = JSON.stringify(value);
@@ -24,34 +24,17 @@ class sStorage {
     }
   };
   static saveFilms = value => {
-    try {
-      const serializedState = JSON.stringify(value);
-      sessionStorage.setItem(FILMS, serializedState);
-    } catch (error) {
-      console.error('Set state error: ', error.message);
-    }
+    save(FILMS, value);
   };
   static loadFilms = () => {
-    try {
-      const serializedState = sessionStorage.getItem(FILMS);
-      return serializedState === null ? undefined : JSON.parse(serializedState);
-    } catch (error) {
-      console.error('Get state error: ', error.message);
-    }
+    return load(FILMS);
   };
   static getFilm = id => {
-    try {
-      const filmId = id;
-      const serializedState = sessionStorage.getItem(FILMS);
-      return serializedState === null
-        ? undefined
-        : JSON.parse(serializedState).filter(film => {
-            return film.id == filmId;
-          });
-    } catch (error) {
-      console.error('Get state error: ', error.message);
-    }
+    const films = loadFilms();
+    return films.filter(film => {
+      return film.id == id;
+    });
   };
 }
 
-export default sStorage;
+export default SessionStorage;
