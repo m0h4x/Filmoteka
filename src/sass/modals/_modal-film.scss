@@ -28,7 +28,7 @@
   @media screen and (min-width: 768px) {
     display: flex;
     flex-flow: row nowrap;
-    gap: 32px
+    gap: 32px;
   }
 }
 
@@ -134,7 +134,7 @@
     line-height: 14px;
     flex: 0 1 calc(100% - 108px);
 
-    [data-attr="avg-rating"] {
+    [data-attr='avg-rating'] {
       display: inline-block;
       padding: 1px 8px;
       color: #ffffff;
