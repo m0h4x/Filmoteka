@@ -8,6 +8,7 @@ const decorGenres = genres => {
         })
         .join(', ') + '...';
 };
+
 const filmCard = film => {
   const baseImgUrl = 'https://image.tmdb.org/t/p/w342';
   const {
@@ -30,7 +31,7 @@ const filmCard = film => {
     <h3 class="film__title" data-orig-title="${original_title}">${title}</h3>
     <div class="film__info" data-vote-average="${vote_average}" data-vote-count="${vote_count}"
       data-popularity="${popularity}" data-overview="${overview}">
-      <span class="film__genre" data-genres="${genres}">${filmGenres}</span>
+      <span class="film__genre" data-genres="${genres.join(', ')}">${filmGenres}</span>
       <span class="film__year">&nbsp${release_date}</span>
     </div>
   </a>
