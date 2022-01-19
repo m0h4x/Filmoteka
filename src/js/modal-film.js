@@ -1,10 +1,13 @@
-import * as basicLightbox from 'basicLightbox';
+import * as basicLightbox from 'basiclightbox';
 import 'basiclightbox/dist/basicLightbox.min.css';
-import { gallery } from './common/elements';
+import {
+  gallery
+} from './common/elements';
 
 console.log('gallery', gallery);
 
 const filmModalHandler = () => {
+
   const filmCards = gallery.querySelectorAll('.film__link');
   // console.log(filmCard);
 
@@ -39,6 +42,7 @@ const filmModalHandler = () => {
     modalTemplate.content.querySelector('[data-attr="popularity"]').textContent = data.popularity;
     modalTemplate.content.querySelector('[data-attr="overview"]').textContent = data.overview;
 
+
     const lightboxInstance = basicLightbox.create(modalTemplate);
     lightboxInstance.show();
 
@@ -49,6 +53,7 @@ const filmModalHandler = () => {
     });
 
     // console.log(card);
+
   }
 };
 
