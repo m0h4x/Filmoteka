@@ -14,6 +14,7 @@ import * as el from './elements';
 let page = 1;
 let results = 1;
 let films = [];
+let searchText = '';
 
 //функции меняющие вид страницы
 //показывает главную
@@ -44,8 +45,16 @@ export const viewWatched = event => {};
 export const viewQueue = event => {};
 
 //обработчики событий
+//срабатывает при нажатии на поиск
+export const searchFilms = event => {
+  event.preventDefault();
+  searchText = event.currentTarget.query.value;
+  console.log(searchText);
+  //renderTopFilms(page, renderReady, renderError);
+};
 //срабатывает при ошибке запроса
 function renderError(error) {
+  searchText = '';
   console.error(error.message);
 }
 //срабатывает при успешном завершении запроса
@@ -59,7 +68,10 @@ function renderReady(topFilms, total_results) {
 }
 //срабатывает при смене страницы
 export const changePage = eventData => {
-  renderTopFilms(eventData.page, renderReady, renderError);
+  if (searchText) {
+  } else {
+    renderTopFilms(eventData.page, renderReady, renderError);
+  }
 };
 
 //срабатывает при первой загрузке
