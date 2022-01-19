@@ -8,7 +8,7 @@ import pagination from '../pagination';
 import renderTopFilms from '../topFilmsComponent';
 
 //элементы страницы
-import { backdrop, modalContainer, homeForm, libraryBtns, gallery } from './elements';
+import { backdrop, modalContainer, homeForm, libraryBtns, gallery, homeLink, libraryLink, headerLogo } from './elements';
 
 //глобальные переменные
 let page = 1;
@@ -25,17 +25,26 @@ let films = [];
 //функции меняющие вид страницы
 //показывает главную
 export const viewMain = event => {
-  homeForm.classList.add('active');
-  libraryBtns.classList.remove('active');
+  event.preventDefault();
+  homeLink.classList.add('active');
+  libraryLink.classList.remove('active');
+  header.classList.remove('header__background-library');
+  homeForm.classList.remove('disabled');
+  libraryBtns.classList.add('disabled');
   viewGallery(films);
 };
 //показывает библиотеку
 export const viewLibrary = event => {
-  libraryBtns.classList.add('active');
-  homeForm.classList.remove('active');
+  event.preventDefault();
+  homeLink.classList.remove('active');
+  libraryLink.classList.add('active');
+  libraryBtns.classList.remove('disabled');
+  homeForm.classList.add('disabled');
+  header.classList.add('header__background-library');
   viewWatched();
   viewGallery(films);
 };
+
 //показывает список просмотренных фильмов
 export const viewWatched = event => {};
 //показывает очередь просмотра фильмов
