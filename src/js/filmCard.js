@@ -6,7 +6,7 @@ const decorGenres = genres => {
         .filter((item, i, arr) => {
           return i < 2;
         })
-        .join(', ') + '...';
+        .join(', ');
 };
 
 const filmCard = film => {
@@ -24,7 +24,7 @@ const filmCard = film => {
     release_date,
   } = film;
   const image = poster_path ? baseImgUrl + poster_path : defaultImage;
-  const filmGenres = decorGenres(genres);
+  const filmGenres = decorGenres(genres) + '..Other';
   return `<li class="film__card" data-modal-id=${id}>
   <a class="film__link" href="#">
     <img class="film__cover" src="${image}" alt="${title}" />
