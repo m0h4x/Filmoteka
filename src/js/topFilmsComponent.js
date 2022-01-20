@@ -5,12 +5,12 @@ import { GenresHelper } from './BLL/genresHelper';
 export default function renderTopFilms(page = 1, apiReady, apiError) {
   
   ApiService
-    .fetchTrendingFilms(page)
-    .then(data => {
+  .fetchTrendingFilms(page)
+  .then(data => {
       const { total_pages, total_results, results } = data;
-      ApiService
-        .getGenres()
-        .then(genres => {
+  ApiService
+  .getGenres() 
+  .then(genres => {
           apiReady(GenresHelper.mixGenres(genres, results), total_results);
         })
         .catch(error => {

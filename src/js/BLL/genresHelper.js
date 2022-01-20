@@ -25,7 +25,7 @@ export const GenresHelper = class {
     //меняет массив films - добавляет к каждому фильму текстовые жанры
     static mixGenres(genres, films) {
         return films.map(film => {
-        return genresHelper.addGenres(film, genres);
+        return GenresHelper.addGenres(film, genres);
         });
     }
 }
