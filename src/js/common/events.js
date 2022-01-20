@@ -4,6 +4,8 @@ import viewGallery from '../viewGallery';
 import SessionStorage from '../storage/sessionStorage';
 // Импорт библиотеки пагинации
 import pagination from '../pagination';
+// Импорт библиотеки уведомлений
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 // импорт функции для запроса на список самых популярных фильмов на сегодня
 import renderTopFilms from '../topFilmsComponent';
 import renderFoundByNameFilms from '../searchedByNameComponent';
@@ -12,8 +14,9 @@ import renderFoundByNameFilms from '../searchedByNameComponent';
 import * as el from './elements';
 
 //глобальные переменные
-let page = 1;
+const page = 1;
 let results = 1;
+let isTopQuery = true;
 let films = [];
 let searchText = '';
 
@@ -49,18 +52,23 @@ export const viewQueue = event => {};
 //срабатывает при нажатии на поиск
 export const searchFilms = event => {
   event.preventDefault();
-  searchText = event.currentTarget.query.value.trim();
-  console.log(searchText);
-  if(searchText.length < 3)
-    return;
+  isTopQuery = false;
   viewGallery([]);
+  searchText = event.currentTarget.query.value.trim();
+  if (searchText.length < 3) {
+    renderError('Film name lenght contains less 4 symbols');
+    return;
+  }
   //TODO: freeze document / prevent any input
-  renderFoundByNameFilms(1, searchText, renderReady,renderError);
+  renderFoundByNameFilms(page, searchText, renderReady, renderError);
 };
 //срабатывает при ошибке запроса
 function renderError(error) {
   searchText = '';
-  console.error(error.message);
+  el.searchFormError.classList.remove('is-hidden');
+  Notify.failure(error, () => {
+    el.searchFormError.classList.add('is-hidden');
+  });
 }
 //срабатывает при успешном завершении запроса
 function renderReady(inputFilms, total_results) {
@@ -69,18 +77,14 @@ function renderReady(inputFilms, total_results) {
   if (films) {
     pagination.setTotalItems(results);
     viewGallery(films);
-    el.searchFormError.classList.add('is-hidden');
-  }
-  if(total_results == 0){
-   
-    el.searchFormError.classList.remove('is-hidden');
   }
 }
 //срабатывает при смене страницы
 export const changePage = eventData => {
-  if (searchText) {
-  } else {
+  if (isTopQuery) {
     renderTopFilms(eventData.page, renderReady, renderError);
+  } else {
+    renderFoundByNameFilms(eventData.page, searchText, renderReady, renderError);
   }
 };
 
