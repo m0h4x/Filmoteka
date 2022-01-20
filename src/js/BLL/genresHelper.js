@@ -1,4 +1,4 @@
-export const genresHelper = class {
+export const GenresHelper = class {
     
     //фильтрует массив полученный от api по id жанров в фильме
     static getTextGenres(genre_ids, genres) {
@@ -15,7 +15,7 @@ export const genresHelper = class {
 
     //распыляет массив жанров и добавляет свойство genres
     static addGenres(film, genres) {
-        const textGenres = genresHelper.getTextGenres(film.genre_ids, genres);
+        const textGenres = GenresHelper.getTextGenres(film.genre_ids, genres);
         return {
         ...film,
         genres: textGenres,
