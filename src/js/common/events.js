@@ -49,7 +49,7 @@ export const viewQueue = event => {};
 //срабатывает при нажатии на поиск
 export const searchFilms = event => {
   event.preventDefault();
-  searchText = event.currentTarget.query.value;
+  searchText = event.currentTarget.query.value.trim();
   console.log(searchText);
   if(searchText.length < 3)
     return;
@@ -72,7 +72,7 @@ function renderReady(inputFilms, total_results) {
     el.searchFormError.classList.add('is-hidden');
   }
   if(total_results == 0){
-    //TODO: show HTML error
+   
     el.searchFormError.classList.remove('is-hidden');
   }
 }
