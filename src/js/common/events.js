@@ -6,6 +6,7 @@ import SessionStorage from '../storage/sessionStorage';
 import pagination from '../pagination';
 // импорт функции для запроса на список самых популярных фильмов на сегодня
 import renderTopFilms from '../topFilmsComponent';
+import renderFoundByNameFilms from '../searchedByNameComponent';
 
 //элементы страницы
 import * as el from './elements';
@@ -48,9 +49,13 @@ export const viewQueue = event => {};
 //срабатывает при нажатии на поиск
 export const searchFilms = event => {
   event.preventDefault();
-  searchText = event.currentTarget.query.value;
+  searchText = event.currentTarget.query.value.trim();
   console.log(searchText);
-  //renderTopFilms(page, renderReady, renderError);
+  if(searchText.length < 3)
+    return;
+  viewGallery([]);
+  //TODO: freeze document / prevent any input
+  renderFoundByNameFilms(1, searchText, renderReady,renderError);
 };
 //срабатывает при ошибке запроса
 function renderError(error) {
@@ -58,12 +63,17 @@ function renderError(error) {
   console.error(error.message);
 }
 //срабатывает при успешном завершении запроса
-function renderReady(topFilms, total_results) {
+function renderReady(inputFilms, total_results) {
   results = total_results;
-  films = topFilms;
+  films = inputFilms;
   if (films) {
     pagination.setTotalItems(results);
     viewGallery(films);
+    el.searchFormError.classList.add('is-hidden');
+  }
+  if(total_results == 0){
+   
+    el.searchFormError.classList.remove('is-hidden');
   }
 }
 //срабатывает при смене страницы
