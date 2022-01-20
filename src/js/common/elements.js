@@ -14,3 +14,4 @@ export const homeLink = document.querySelector('.header__nav-home-link');
 export const libraryLink = document.querySelector('.header__nav-library-link');
 export const headerLogo = document.querySelector('.header__logo');
 export const searchForm = document.querySelector('.header__search-form');
+export const searchFormError = document.querySelector('.header__search-error');

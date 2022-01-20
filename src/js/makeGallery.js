@@ -1,5 +1,6 @@
 import filmCard from './filmCard';
 
+//Returns rendered filmCards string
 const makeGallery = results => {
   const data = results
     .filter(film => film.title)

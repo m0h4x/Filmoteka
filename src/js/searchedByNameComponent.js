@@ -2,10 +2,10 @@ import { ApiService } from './BLL/themoviedb';
 import { genresHelper } from './BLL/genresHelper';
 const api = new ApiService();
 
-export default function renderTopFilms(page = 1, apiReady, apiError) {
+export default function renderFoundByNameFilms(page = 1, name, apiReady, apiError) {
   
   api
-    .fetchTrendingFilms(page)
+    .fetchMoviesResultsByName(page, name)
     .then(data => {
       const { total_pages, total_results, results } = data;
       api
