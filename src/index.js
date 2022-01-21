@@ -1,4 +1,5 @@
 import './sass/main.scss';
+import './js/modalFooter';
 
 //элементы страницы
 import * as el from './js/common/elements';
