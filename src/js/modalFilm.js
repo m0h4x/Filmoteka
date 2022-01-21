@@ -1,6 +1,11 @@
 import * as basicLightbox from 'basiclightbox';
 import 'basiclightbox/dist/basicLightbox.min.css';
-import { gallery } from './common/elements';
+import { gallery, FILMS_IN_WATCHED, FILMS_IN_QUEUE } from './common/elements';
+import {
+  addToLocalStorage,
+  checkItemInLocalStorage,
+  removeFromLocalStorage,
+} from './storage/storage';
 
 console.log('gallery', gallery);
 
@@ -40,15 +45,65 @@ const filmModalHandler = () => {
     modalTemplate.content.querySelector('[data-attr="overview"]').textContent = data.overview;
 
     const lightboxInstance = basicLightbox.create(modalTemplate);
-    lightboxInstance.show();
+    lightboxInstance.show(() => {
+      const filmId = parseInt(this.closest('.film__card').dataset.modalId);
+      // console.log(filmId);
+      const elem = lightboxInstance.element();
+      const btnWatched = elem.querySelector('.modal-btn-watched');
+      const btnQueue = elem.querySelector('.modal-btn-queue');
+
+      // check if the film is already in WatchList
+      if (checkItemInLocalStorage(FILMS_IN_WATCHED, filmId)) {
+        btnWatched.classList.add('active');
+        btnWatched.textContent = 'remove from watched';
+      }
+
+      // check if the film is already in Queue
+      if (checkItemInLocalStorage(FILMS_IN_QUEUE, filmId)) {
+        btnQueue.classList.add('active');
+        btnQueue.textContent = 'remove from queue';
+      }
+
+      btnWatched.addEventListener('click', addToWatchedHandler.bind(null, filmId));
+      btnQueue.addEventListener('click', addToQueueHandler.bind(null, filmId));
+    });
 
     const closeBtn = document.querySelector('.modal__close-btn');
-    // const backdrop = document.querySelector('.modal__backdrop');
     closeBtn.addEventListener('click', () => {
       lightboxInstance.close();
     });
 
-    // console.log(card);
+    const addToWatchedHandler = id => {
+      const elem = event.target;
+      const currText = elem.textContent;
+
+      // console.log(id);
+      elem.classList.toggle('active');
+
+      if (currText.toLowerCase() === 'add to watched') {
+        elem.textContent = 'remove from watched';
+        addToLocalStorage(FILMS_IN_WATCHED, id);
+      } else {
+        elem.textContent = 'add to watched';
+        removeFromLocalStorage(FILMS_IN_WATCHED, id);
+      }
+    };
+
+    const addToQueueHandler = id => {
+      const elem = event.target;
+      const currText = elem.textContent;
+
+      // console.log(id);
+      elem.classList.toggle('active');
+
+      if (currText.toLowerCase() === 'add to queue') {
+        elem.textContent = 'remove from queue';
+        addToLocalStorage(FILMS_IN_QUEUE, id);
+      } else {
+        elem.textContent = 'add to queue';
+        removeFromLocalStorage(FILMS_IN_QUEUE, id);
+      }
+    };
   }
 };
 
