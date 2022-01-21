@@ -1,12 +1,16 @@
 import defaultImage from '../images/no-cover.jpg';
 const decorGenres = genres => {
+  const appendix = '..Other';
+  if (!genres.length) {
+    return appendix;
+  }
   return genres.length < 2
     ? genres.join(', ')
     : genres
         .filter((item, i, arr) => {
           return i < 2;
         })
-        .join(', ');
+        .join(', ') + appendix;
 };
 
 const filmCard = film => {
@@ -24,7 +28,7 @@ const filmCard = film => {
     release_date,
   } = film;
   const image = poster_path ? baseImgUrl + poster_path : defaultImage;
-  const filmGenres = decorGenres(genres) + '..Other';
+  const filmGenres = decorGenres(genres);
   return `<li class="film__card" data-modal-id=${id}>
   <a class="film__link" href="#">
     <img class="film__cover" src="${image}" alt="${title}" />

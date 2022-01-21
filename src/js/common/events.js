@@ -4,16 +4,21 @@ import viewGallery from '../viewGallery';
 import SessionStorage from '../storage/sessionStorage';
 // Импорт библиотеки пагинации
 import pagination from '../pagination';
+// Импорт библиотеки уведомлений
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 // импорт функции для запроса на список самых популярных фильмов на сегодня
 import renderTopFilms from '../topFilmsComponent';
+import renderFoundByNameFilms from '../searchedByNameComponent';
 
 //элементы страницы
 import * as el from './elements';
 
 //глобальные переменные
-let page = 1;
+const page = 1;
 let results = 1;
+let isTopQuery = true;
 let films = [];
+let searchText = '';
 
 //функции меняющие вид страницы
 //показывает главную
@@ -44,14 +49,31 @@ export const viewWatched = event => {};
 export const viewQueue = event => {};
 
 //обработчики событий
+//срабатывает при нажатии на поиск
+export const searchFilms = event => {
+  event.preventDefault();
+  isTopQuery = false;
+  viewGallery([]);
+  searchText = event.currentTarget.query.value.trim();
+  if (searchText.length < 3) {
+    renderError('Film name lenght contains less 4 symbols');
+    return;
+  }
+  //TODO: freeze document / prevent any input
+  renderFoundByNameFilms(page, searchText, renderReady, renderError);
+};
 //срабатывает при ошибке запроса
 function renderError(error) {
-  console.error(error.message);
+  searchText = '';
+  el.searchFormError.classList.remove('is-hidden');
+  Notify.failure(error, () => {
+    el.searchFormError.classList.add('is-hidden');
+  });
 }
 //срабатывает при успешном завершении запроса
-function renderReady(topFilms, total_results) {
+function renderReady(inputFilms, total_results) {
   results = total_results;
-  films = topFilms;
+  films = inputFilms;
   if (films) {
     pagination.setTotalItems(results);
     viewGallery(films);
@@ -59,7 +81,11 @@ function renderReady(topFilms, total_results) {
 }
 //срабатывает при смене страницы
 export const changePage = eventData => {
-  renderTopFilms(eventData.page, renderReady, renderError);
+  if (isTopQuery) {
+    renderTopFilms(eventData.page, renderReady, renderError);
+  } else {
+    renderFoundByNameFilms(eventData.page, searchText, renderReady, renderError);
+  }
 };
 
 //срабатывает при первой загрузке
