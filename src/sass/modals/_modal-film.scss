@@ -102,11 +102,15 @@
     border: 1px solid #000000;
     transition: all 0.3s linear;
 
-    &:hover,
-    &:focus {
+    &.active,
+    &:hover {
       color: #fff;
       background-color: #ff6b01;
       border-color: transparent;
+
+      &:after {
+        display: none;
+      }
     }
   }
 }

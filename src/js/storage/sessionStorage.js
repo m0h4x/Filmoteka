@@ -1,4 +1,5 @@
 const FILMS = 'Filmoteka_Films';
+
 class SessionStorage {
   static save = (key, value) => {
     try {
