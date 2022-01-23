@@ -34,6 +34,9 @@
   margin-top: 10px;
   color: getColor('text-secondary');
   text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .film__info {
