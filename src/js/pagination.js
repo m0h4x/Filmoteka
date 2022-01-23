@@ -1,14 +1,6 @@
+//импорт библиотеки пагинации
 import Pagination from 'tui-pagination';
 
-// TODO:
-//total pages is calcalated as totalItems/itemsPerPage
-// in events should be variable that will be used for pagination render
-// totalItems -> could be taken from result of API cal
-// itemsPerPage ->  should be calculted as length of result list
-//                  default for home page: 20,
-//                  for library depending on screen size: 4, 8, 9
-// visiblePages -> should be calculated max value is 5, min is 1
-// page -> should be taken from result of API call
 const options = {
   totalItems: 200,
   itemsPerPage: 20,
@@ -31,23 +23,6 @@ const options = {
   },
 };
 
-const pagination = new Pagination('pagination', options);
-export default pagination;
-//TODO
-// event listener for buttons
-// default example:
-/*
-pagination.on('beforeMove', evt => {
-  const { page } = evt;
-  //How to spread API call?
-  const result = ajax.call({page});
+export const pagination = new Pagination('pagination', options);
 
-  if(result) {
-    pagination.movePageTo(page);
-  } else {
-    return false;
-  }
-});
-// How to render new page?
-pagination.on('afterMove', ({ page }) => viewGallery());
-*/
+export default pagination;

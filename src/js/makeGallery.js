@@ -6,7 +6,8 @@ const makeGallery = results => {
     .filter(film => film.title)
     .map(film => {
       const { release_date } = film;
-      return filmCard({ ...film, release_date: release_date.split('-')[0] });
+      const date = release_date ? release_date.split('-')[0] : 'no-date';
+      return filmCard({ ...film, release_date: date });
     })
     .join('');
   return data;

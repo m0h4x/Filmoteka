@@ -1,0 +1,20 @@
+.modal__backdrop {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.5);
+
+	opacity: 1;
+	transition: opacity var(--transition);
+	overflow-y: scroll;
+	z-index: 3;
+
+	&.is-hidden {
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+		transition: visibility var(--transition), opacity var(--transition);
+	}
+}

@@ -8,8 +8,7 @@ export default function renderFoundByNameFilms(page = 1, name, apiReady, apiErro
     .then(data => {
       const { total_pages, total_results, results } = data;
       if (total_results == 0) {
-        apiError('No results were found for your search');
-        return [];
+        throw new Error('No results were found for your search');
       }
       ApiService.getGenres()
 
