@@ -1,7 +1,7 @@
 // импорт функции для показа галереи
-import viewGallery from '../viewGallery';
-//импорт функции для сохранения в локальной сессии
-import SessionStorage from '../storage/sessionStorage';
+import viewGallery from '../gallery/viewGallery';
+//импорт функций хранилища
+import { getItemsInLocalStorage } from '../storage/storage';
 // Импорт лоадера
 import { viewLoader, hideLoader } from '../loader';
 // Импорт пагинации
@@ -28,6 +28,8 @@ let searchText = '';
 //показывает главную
 export const viewMain = event => {
   event.preventDefault();
+  el.btnQueue.removeEventListener('click', viewQueue);
+  el.btnWatched.removeEventListener('click', viewWatched);
   el.homeLink.classList.add('header__link_active');
   el.libraryLink.classList.remove('header__link_active');
   el.header.classList.remove('header__background-library');
@@ -52,9 +54,15 @@ export const viewLibrary = event => {
 };
 
 //показывает список просмотренных фильмов
-export const viewWatched = event => {};
+const viewWatched = event => {
+  const films = getItemsInLocalStorage(el.FILMS_IN_WATCHED);
+  viewGallery(films, true);
+};
 //показывает очередь просмотра фильмов
-export const viewQueue = event => {};
+const viewQueue = event => {
+  const films = getItemsInLocalStorage(el.FILMS_IN_QUEUE);
+  viewGallery(films, true);
+};
 
 //обработчики событий
 //срабатывает при нажатии на поиск
