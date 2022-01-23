@@ -44,4 +44,17 @@ const removeFromLocalStorage = (key, value) => {
   }
 };
 
-export { addToLocalStorage, checkItemInLocalStorage, removeFromLocalStorage };
+const getItemsInLocalStorage = key => {
+  try {
+    return localStorage.getItem(key) ? [...JSON.parse(localStorage.getItem(key))] : [];
+  } catch (error) {
+    console.error('Get state error: ', error.message);
+  }
+};
+
+export {
+  addToLocalStorage,
+  checkItemInLocalStorage,
+  removeFromLocalStorage,
+  getItemsInLocalStorage,
+};
