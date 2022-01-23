@@ -1,7 +1,7 @@
 import filmCard from './filmCard';
 
 //Returns rendered filmCards string
-const makeGallery = (results, isLibrary = false) => {
+const makeGallery = (results, isLibrary) => {
   const data = results
     .filter(film => film.title)
     .map(film => {
