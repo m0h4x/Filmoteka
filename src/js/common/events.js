@@ -9,8 +9,10 @@ import pagination from '../pagination';
 // Импорт библиотеки уведомлений
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 // импорт функции для запроса на список самых популярных фильмов на сегодня
-import renderTopFilms from '../API/topFilmsComponent';
-import renderFoundByNameFilms from '../API/searchedByNameComponent';
+import renderTopFilms from '../topFilmsComponent';
+import renderFoundByNameFilms from '../searchedByNameComponent';
+// импорт функции для показа модалки
+import { onCardClick } from '../modalFilm';
 
 //элементы страницы
 import * as el from './elements';
@@ -33,7 +35,9 @@ export const viewMain = event => {
   el.header.classList.remove('header__background-library');
   el.searchForm.classList.remove('hidden');
   el.libraryBtns.classList.add('hidden');
-  changePage();
+  el.gallery.innerHTML = '';
+  el.gallery.removeEventListener('click', onCardClick);
+  viewGallery(films);
 };
 //показывает библиотеку
 export const viewLibrary = event => {
@@ -43,9 +47,10 @@ export const viewLibrary = event => {
   el.libraryBtns.classList.remove('hidden');
   el.searchForm.classList.add('hidden');
   el.header.classList.add('header__background-library');
-  el.btnWatched.addEventListener('click', viewWatched);
-  el.btnQueue.addEventListener('click', viewQueue);
+  el.gallery.innerHTML = '';
+  el.gallery.removeEventListener('click', onCardClick);
   viewWatched();
+  // viewGallery(films);
 };
 
 //показывает список просмотренных фильмов
@@ -118,6 +123,8 @@ export const changePage = eventData => {
 
 //срабатывает при первой загрузке
 export const firstLoad = event => {
+  el.gallery.innerHTML = '';
+  el.gallery.removeEventListener('click', onCardClick);
   pagination.on('beforeMove', changePage);
   changePage();
 };

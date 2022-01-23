@@ -28,6 +28,6 @@ export const modalFilm = document.querySelector('.modal__container');
 export const openCommandModalBtn = document.querySelector('[command-modal-open]');
 export const closeCommandModalBtn = document.querySelector('.team__container__icon-box');
 export const modalCommand = document.querySelector('.team__container');
-//constants
+// storage keys
 export const FILMS_IN_WATCHED = 'MY_WATCHED_LIST';
 export const FILMS_IN_QUEUE = 'MY_QUEUE_LIST';

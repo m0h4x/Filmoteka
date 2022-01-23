@@ -28,6 +28,11 @@
 }
 
 .modal-wrapper {
+  @media screen and (min-width: 320px) and (max-width: 767px) {
+    max-height: calc(100vh - 130px);
+    overflow-y: auto;
+  }
+
   @media screen and (min-width: 768px) {
     display: flex;
     flex-flow: row nowrap;
@@ -38,6 +43,9 @@
 .modal-image {
   @media screen and (min-width: 768px) {
     flex: 0 1 264px;
+    max-height: calc(100vh - 140px);
+    overflow: hidden;
+    border-radius: 5px;
   }
 
   img {
