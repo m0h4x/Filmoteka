@@ -14,7 +14,7 @@ import filmModalHandler from './modalFilm';
 //меняет разметку галереи и добавляет код открытия модалки
 const viewGallery = films => {
   gallery.innerHTML = makeGallery(films);
-  filmModalHandler();
+  filmModalHandler(films);
 };
 
 export default viewGallery;

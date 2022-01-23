@@ -20,7 +20,7 @@ const addToLocalStorage = (key, value) => {
 
 const checkItemInLocalStorage = (key, value) => {
   const currArray = localStorage.getItem(key) ? [...JSON.parse(localStorage.getItem(key))] : [];
-  return currArray.includes(value);
+  return currArray.filter(e => e.id === value).length;
 };
 
 const removeFromLocalStorage = (key, value) => {
@@ -31,8 +31,8 @@ const removeFromLocalStorage = (key, value) => {
   }
 
   // check for existance
-  if (currArray.includes(value)) {
-    const item = currArray.indexOf(value);
+  if (currArray.filter(e => e.id === value.id).length) {
+    const item = currArray.findIndex(e => e.id === value.id);
     currArray.splice(item, 1);
   }
 

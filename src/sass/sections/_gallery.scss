@@ -16,6 +16,14 @@
   @media screen and (min-width: 1024px) {
     grid-template-columns: repeat(3, 274px);
   }
+
+  .film__link {
+    display: inline-block;
+
+    > * {
+      pointer-events: none;
+    }
+  }
 }
 
 .film__cover {

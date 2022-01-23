@@ -7,104 +7,100 @@ import {
   removeFromLocalStorage,
 } from './storage/storage';
 
-console.log('gallery', gallery);
+// global values
+const BASE_IMG_URL = 'https://image.tmdb.org/t/p/w342';
 
-const filmModalHandler = () => {
-  const filmCards = gallery.querySelectorAll('.film__link');
-  // console.log(filmCard);
+const addToWatchedHandler = item => {
+  const elem = event.target;
+  const currText = elem.textContent;
 
-  filmCards.forEach(card => {
-    // console.log(card);
-    card.addEventListener('click', onFilmCardClick);
-  });
+  elem.classList.toggle('active');
 
-  function onFilmCardClick(e) {
-    e.preventDefault();
-
-    const card = this;
-    const data = {
-      poster_path: card.querySelector('.film__cover').getAttribute('src'),
-      title: card.querySelector('.film__title').innerHTML,
-      origTitle: card.querySelector('.film__title').dataset.origTitle,
-      voteAvg: card.querySelector('.film__info').dataset.voteAverage,
-      voteCnt: card.querySelector('.film__info').dataset.voteCount,
-      genres: card.querySelector('.film__genre').dataset.genres,
-      popularity: card.querySelector('.film__info').dataset.popularity,
-      overview: card.querySelector('.film__info').dataset.overview,
-    };
-
-    const modalTemplate = document.querySelector('#modalFilmTemplate');
-
-    modalTemplate.content.querySelector('.modal-image img').src = data.poster_path;
-    modalTemplate.content.querySelector('.modal-content h3').textContent = data.title;
-    modalTemplate.content.querySelector('[data-attr="orig-title"]').textContent = data.origTitle;
-    modalTemplate.content.querySelector('[data-attr="avg-rating"]').textContent = data.voteAvg;
-    modalTemplate.content.querySelector('[data-attr="vote-count"]').textContent = data.voteCnt;
-    modalTemplate.content.querySelector('[data-attr="genre"]').textContent = data.genres;
-    modalTemplate.content.querySelector('[data-attr="popularity"]').textContent = data.popularity;
-    modalTemplate.content.querySelector('[data-attr="overview"]').textContent = data.overview;
-
-    const lightboxInstance = basicLightbox.create(modalTemplate);
-    lightboxInstance.show(() => {
-      const filmId = parseInt(this.closest('.film__card').dataset.modalId);
-      // console.log(filmId);
-      const elem = lightboxInstance.element();
-      const btnWatched = elem.querySelector('.modal-btn-watched');
-      const btnQueue = elem.querySelector('.modal-btn-queue');
-
-      // check if the film is already in WatchList
-      if (checkItemInLocalStorage(FILMS_IN_WATCHED, filmId)) {
-        btnWatched.classList.add('active');
-        btnWatched.textContent = 'remove from watched';
-      }
-
-      // check if the film is already in Queue
-      if (checkItemInLocalStorage(FILMS_IN_QUEUE, filmId)) {
-        btnQueue.classList.add('active');
-        btnQueue.textContent = 'remove from queue';
-      }
-
-      btnWatched.addEventListener('click', addToWatchedHandler.bind(null, filmId));
-      btnQueue.addEventListener('click', addToQueueHandler.bind(null, filmId));
-    });
-
-    const closeBtn = document.querySelector('.modal__close-btn');
-    closeBtn.addEventListener('click', () => {
-      lightboxInstance.close();
-    });
-
-    const addToWatchedHandler = id => {
-      const elem = event.target;
-      const currText = elem.textContent;
-
-      // console.log(id);
-      elem.classList.toggle('active');
-
-      if (currText.toLowerCase() === 'add to watched') {
-        elem.textContent = 'remove from watched';
-        addToLocalStorage(FILMS_IN_WATCHED, id);
-      } else {
-        elem.textContent = 'add to watched';
-        removeFromLocalStorage(FILMS_IN_WATCHED, id);
-      }
-    };
-
-    const addToQueueHandler = id => {
-      const elem = event.target;
-      const currText = elem.textContent;
-
-      // console.log(id);
-      elem.classList.toggle('active');
-
-      if (currText.toLowerCase() === 'add to queue') {
-        elem.textContent = 'remove from queue';
-        addToLocalStorage(FILMS_IN_QUEUE, id);
-      } else {
-        elem.textContent = 'add to queue';
-        removeFromLocalStorage(FILMS_IN_QUEUE, id);
-      }
-    };
+  if (currText.toLowerCase() === 'add to watched') {
+    elem.textContent = 'remove from watched';
+    addToLocalStorage(FILMS_IN_WATCHED, item);
+  } else {
+    elem.textContent = 'add to watched';
+    removeFromLocalStorage(FILMS_IN_WATCHED, item);
   }
+};
+
+const addToQueueHandler = item => {
+  const elem = event.target;
+  const currText = elem.textContent;
+
+  elem.classList.toggle('active');
+
+  if (currText.toLowerCase() === 'add to queue') {
+    elem.textContent = 'remove from queue';
+    addToLocalStorage(FILMS_IN_QUEUE, item);
+  } else {
+    elem.textContent = 'add to queue';
+    removeFromLocalStorage(FILMS_IN_QUEUE, item);
+  }
+};
+
+const filmModalHandler = filmsArray => {
+  // console.log(filmsArray);
+  const data = filmsArray;
+
+  gallery.addEventListener('click', e => {
+    e.stopPropagation();
+
+    const element = e.target;
+    // console.log(element);
+    let filmId;
+
+    if (element.classList.contains('film__link')) {
+      filmId = parseInt(element.closest('.film__card').dataset.modalId);
+      const index = filmsArray.findIndex(e => e.id === filmId);
+      // console.log(data[index]);
+
+      const modalTemplate = document.querySelector('#modalFilmTemplate');
+      const tpl = modalTemplate.content;
+
+      // вставляем значения собранные с обьекта в нужные нам поля
+
+      tpl.querySelector('.modal-image img').src = BASE_IMG_URL + data[index].poster_path;
+      tpl.querySelector('.modal-content h3').textContent = data[index].title;
+      tpl.querySelector('[data-attr="orig-title"]').textContent = data[index].original_title;
+      tpl.querySelector('[data-attr="avg-rating"]').textContent = data[index].vote_average;
+      tpl.querySelector('[data-attr="vote-count"]').textContent = data[index].vote_count;
+      tpl.querySelector('[data-attr="genre"]').textContent = data[index].genres.join(', ');
+      tpl.querySelector('[data-attr="popularity"]').textContent = data[index].popularity;
+      tpl.querySelector('[data-attr="overview"]').textContent = data[index].overview;
+
+      // создаем инстанс лайтбокса
+      const lightboxInstance = basicLightbox.create(modalTemplate);
+
+      // открываем лайтбокс и применяем к его содержимому последующую магию ))
+      lightboxInstance.show(() => {
+        const elem = lightboxInstance.element();
+        const btnWatched = elem.querySelector('.modal-btn-watched');
+        const btnQueue = elem.querySelector('.modal-btn-queue');
+
+        // check if the film is already in WatchList
+        if (checkItemInLocalStorage(FILMS_IN_WATCHED, filmId)) {
+          btnWatched.classList.add('active');
+          btnWatched.textContent = 'remove from watched';
+        }
+
+        // check if the film is already in Queue
+        if (checkItemInLocalStorage(FILMS_IN_QUEUE, filmId)) {
+          btnQueue.classList.add('active');
+          btnQueue.textContent = 'remove from queue';
+        }
+
+        btnWatched.addEventListener('click', addToWatchedHandler.bind(null, data[index]));
+        btnQueue.addEventListener('click', addToQueueHandler.bind(null, data[index]));
+      });
+
+      const closeBtn = document.querySelector('.modal__close-btn');
+      closeBtn.addEventListener('click', () => {
+        lightboxInstance.close();
+      });
+    }
+  });
 };
 
 export default filmModalHandler;
