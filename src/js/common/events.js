@@ -1,5 +1,5 @@
 // импорт функции для показа галереи
-import viewGallery from '../viewGallery';
+import viewGallery from '../gallery/viewGallery';
 //импорт функций хранилища
 import { getItemsInLocalStorage } from '../storage/storage';
 // Импорт лоадера
@@ -9,8 +9,8 @@ import pagination from '../pagination';
 // Импорт библиотеки уведомлений
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 // импорт функции для запроса на список самых популярных фильмов на сегодня
-import renderTopFilms from '../topFilmsComponent';
-import renderFoundByNameFilms from '../searchedByNameComponent';
+import renderTopFilms from '../API/topFilmsComponent';
+import renderFoundByNameFilms from '../API/searchedByNameComponent';
 
 //элементы страницы
 import * as el from './elements';

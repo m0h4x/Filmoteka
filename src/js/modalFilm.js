@@ -36,10 +36,12 @@ const openModalFilm = (data, e) => {
     lightboxInstance.show();
     //проверяет есть ли фильм в очереди и меняет название кнопок, добавляет обработчики
     ev.checkFilm(filmId, data[index]);
+    //console.log(data[index]);
     //добавляет обработчики закрытия модалки
     const closeBtn = document.querySelector('.modal__close-btn');
     closeBtn.addEventListener('click', lightboxInstance.close);
     el.body.addEventListener('keyup', closeOnEscape.bind(null, lightboxInstance.close));
+    el.body.classList.toggle('disable-scroll');
   }
 };
 

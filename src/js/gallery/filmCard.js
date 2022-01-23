@@ -1,4 +1,4 @@
-import defaultImage from '../images/no-cover.jpg';
+import defaultImage from '../../images/no-cover.jpg';
 const decorGenres = genres => {
   const appendix = '..Other';
   if (!genres.length) {
