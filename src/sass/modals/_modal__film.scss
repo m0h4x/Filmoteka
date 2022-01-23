@@ -164,3 +164,9 @@
   justify-content: space-between;
   gap: 10px;
 }
+
+.modal-overview {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

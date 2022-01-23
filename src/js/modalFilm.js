@@ -41,7 +41,7 @@ const openModalFilm = (data, e) => {
     const closeBtn = document.querySelector('.modal__close-btn');
     closeBtn.addEventListener('click', lightboxInstance.close);
     el.body.addEventListener('keyup', closeOnEscape.bind(null, lightboxInstance.close));
-    el.body.classList.toggle('disable-scroll');
+    //el.body.classList.toggle('disable-scroll');
   }
 };
 
