@@ -16,5 +16,6 @@
 @import './sections/gallery';
 @import './sections/pagination';
 @import './sections/footer';
-@import './modals/modal-film';
-@import './modals/footerModal';
+@import './modals/modal__backdrop';
+@import './modals/modal__film';
+@import './modals/modal__command';

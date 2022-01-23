@@ -16,11 +16,19 @@
   @media screen and (min-width: 1024px) {
     grid-template-columns: repeat(3, 274px);
   }
+
+  .film__link {
+    display: inline-block;
+
+    > * {
+      pointer-events: none;
+    }
+  }
 }
 
 .film__cover {
   border-radius: 5px;
-  height: calc(100% - 42px);
+  height: 398px;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
 
@@ -34,6 +42,9 @@
   margin-top: 10px;
   color: getColor('text-secondary');
   text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .film__info {
@@ -42,4 +53,10 @@
 
 .film__year {
   border-left: 1px solid getColor('accent');
+}
+.film__rating {
+  color: getColor('text-primary');
+  background: getColor('card-rating');
+  padding: 2px 10px;
+  border-radius: 5px;
 }

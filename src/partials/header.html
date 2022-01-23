@@ -1,44 +1,33 @@
 <header class="header__background-home" id="header">
   <div class="container header__container">
     <nav class="header__nav">
-      <a href="./index.html" class="link header__logo">
-        <svg class="logo-icon" width="24" height="24">
+      <a href="./index.html" class="header__logo">
+        <svg width="24" height="24">
           <use href="images/icons.svg#film"></use>
         </svg>
         <span class="header__logo-span"> Filmoteka</span>
       </a>
       <ul class="header__nav-list">
         <li>
-          <a href="./index.html" class="header__nav-home-link home active" id="home-link">Home</a>
+          <a href="./index.html" class="header__nav-home-link home header__link_active" id="home-link">Home</a>
         </li>
         <li>
           <a href="#" class="header__nav-library-link library" id="library-link">my library</a>
         </li>
       </ul>
-      <!-- <button class="home" type="button">Home</button> -->
-      <!-- <button class="library" type="button">My Library</button> -->
     </nav>
-    <div class="header__form">
       <form class="header__search-form js-search-form" id="search-form">
         <input type="text" name="query" autocomplete="off" placeholder="Поиск фильмов" class="header__search-form-input"
-          id="search-form-input" />
-        <button type="submit" class="header__form-btn"></button>
+          id="search-form-input"/>
+        <button type="submit" class="header__form-btn" aria-label="Search"></button>
       </form>
       <div class="header__search-error is-hidden">
         <p class="header__search-error-text">
           Search result not successful. Enter the correct movie name and try again.
         </p>
       </div>
+    <div class="header__buttons hidden">
+      <button type="submit" class="header__btn" id="btn-watched" aria-label="Watched">Watched</button>
+      <button type="submit" class="header__btn" id="btn-queue" aria-label="Queue">Queue</button>
     </div>
-    <div class="header__button disabled">
-      <button type="submit" class="header__btn" id="btn-watched">Watched</button>
-      <button type="submit" class="header__btn" id="btn-queue">queue</button>
-    </div>
-
-    <!-- <div class="home-btns active">Форма главной страницы</div>
-    <div class="library-btns">
-      <button class="watched" type="button">Watched</button>
-      <button class="queue" type="button">Queue</button>
-    </div>
-  </div> -->
 </header>

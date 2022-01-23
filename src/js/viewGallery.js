@@ -7,14 +7,14 @@ import sStorage from './storage/sessionStorage';
 // импорт функции для рендера разметки
 import makeGallery from './makeGallery';
 // импорт функции для показа модалки
-import filmModalHandler from './modal-film';
+import filmModalHandler from './modalFilm';
 
 //TODO: add logic for pagination
 
 //меняет разметку галереи и добавляет код открытия модалки
 const viewGallery = films => {
   gallery.innerHTML = makeGallery(films);
-  filmModalHandler();
+  filmModalHandler(films);
 };
 
 export default viewGallery;

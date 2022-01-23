@@ -2,7 +2,9 @@
 import viewGallery from '../viewGallery';
 //импорт функции для сохранения в локальной сессии
 import SessionStorage from '../storage/sessionStorage';
-// Импорт библиотеки пагинации
+// Импорт лоадера
+import { viewLoader, hideLoader } from '../loader';
+// Импорт пагинации
 import pagination from '../pagination';
 // Импорт библиотеки уведомлений
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
@@ -14,7 +16,7 @@ import renderFoundByNameFilms from '../searchedByNameComponent';
 import * as el from './elements';
 
 //глобальные переменные
-const page = 1;
+let page = 1;
 let results = 1;
 let isTopQuery = true;
 let films = [];
@@ -24,20 +26,20 @@ let searchText = '';
 //показывает главную
 export const viewMain = event => {
   event.preventDefault();
-  el.homeLink.classList.add('active');
-  el.libraryLink.classList.remove('active');
+  el.homeLink.classList.add('header__link_active');
+  el.libraryLink.classList.remove('header__link_active');
   el.header.classList.remove('header__background-library');
-  el.homeForm.classList.remove('disabled');
-  el.libraryBtns.classList.add('disabled');
+  el.searchForm.classList.remove('hidden');
+  el.libraryBtns.classList.add('hidden');
   viewGallery(films);
 };
 //показывает библиотеку
 export const viewLibrary = event => {
   event.preventDefault();
-  el.homeLink.classList.remove('active');
-  el.libraryLink.classList.add('active');
-  el.libraryBtns.classList.remove('disabled');
-  el.homeForm.classList.add('disabled');
+  el.homeLink.classList.remove('header__link_active');
+  el.libraryLink.classList.add('header__link_active');
+  el.libraryBtns.classList.remove('hidden');
+  el.searchForm.classList.add('hidden');
   el.header.classList.add('header__background-library');
   viewWatched();
   viewGallery(films);
@@ -53,43 +55,60 @@ export const viewQueue = event => {};
 export const searchFilms = event => {
   event.preventDefault();
   isTopQuery = false;
-  viewGallery([]);
+  if (searchText !== event.currentTarget.query.value.trim()) {
+    page = 1;
+  }
   searchText = event.currentTarget.query.value.trim();
   if (searchText.length < 3) {
-    renderError('Film name lenght contains less 4 symbols');
+    renderError('Film name lenght contains less 3 symbols');
     return;
   }
-  //TODO: freeze document / prevent any input
-  renderFoundByNameFilms(page, searchText, renderReady, renderError);
+  changePage();
 };
 //срабатывает при ошибке запроса
 function renderError(error) {
   searchText = '';
+  page = 1;
+  films = [];
+  viewGallery(films);
+  pagination.reset(0);
+
   el.searchFormError.classList.remove('is-hidden');
   Notify.failure(error, () => {
     el.searchFormError.classList.add('is-hidden');
+    hideLoader();
   });
 }
 //срабатывает при успешном завершении запроса
 function renderReady(inputFilms, total_results) {
   results = total_results;
+  if (page == 1) {
+    pagination.reset(results);
+  }
   films = inputFilms;
   if (films) {
-    pagination.setTotalItems(results);
     viewGallery(films);
   }
+  hideLoader();
 }
 //срабатывает при смене страницы
 export const changePage = eventData => {
-  if (isTopQuery) {
-    renderTopFilms(eventData.page, renderReady, renderError);
+  if (eventData) {
+    page = eventData.page;
   } else {
-    renderFoundByNameFilms(eventData.page, searchText, renderReady, renderError);
+    pagination.movePageTo(page);
+    return;
+  }
+  viewLoader();
+  if (isTopQuery) {
+    renderTopFilms(page, renderReady, renderError);
+  } else {
+    renderFoundByNameFilms(page, searchText, renderReady, renderError);
   }
 };
 
 //срабатывает при первой загрузке
 export const firstLoad = event => {
   pagination.on('beforeMove', changePage);
-  renderTopFilms(page, renderReady, renderError);
+  changePage();
 };
