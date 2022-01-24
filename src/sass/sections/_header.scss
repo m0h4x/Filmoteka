@@ -47,7 +47,7 @@
   font-weight: 500;
   font-size: 30px;
   line-height: 35px;
-  color: var(--white-text-color);
+  color: getColor('text-primary');
   text-decoration: none;
 
   @media screen and (min-width: 320px) {
@@ -79,7 +79,7 @@
 .header__nav-home-link,
 .header__nav-library-link {
   text-decoration: none;
-  color: var(--white-text-color);
+  color: getColor('text-primary');
   font-weight: 500;
   font-size: 12px;
   line-height: 14px;
@@ -97,7 +97,7 @@
 
 .header__search-form {
   display: flex;
-  border-bottom: 0.5px solid var(--white-text-color);
+  border-bottom: 0.5px solid getColor('text-primary');
   justify-content: space-between;
   @media screen and (min-width: 320px) {
     margin-top: 41px;
@@ -109,13 +109,13 @@
   }
   &:hover,
   &:focus-within {
-    border-bottom: 0.5px solid var(--accent-color);
+    border-bottom: 0.5px solid getColor('accent');
   }
   &:hover .header__search-form-input,
   &:hover .header__search-form-input::placeholder,
   &:focus-within .header__search-form-input,
   &:focus-within .header__search-form-input::placeholder {
-    color: var(--accent-color);
+    color: getColor('accent');
   }
   &:hover .header__form-btn,
   &:focus-within .header__form-btn {
@@ -127,7 +127,7 @@
   outline: none;
   border-style: none;
   background: inherit;
-  color: var(--white-text-color);
+  color: getColor('text-primary');
   font-size: 14px;
   line-height: 1.14;
   width: 280px;
@@ -138,7 +138,7 @@
 }
 
 .header__search-form-input::placeholder {
-  color: var(--white-text-color);
+  color: getColor('text-primary');
 }
 
 .header__form-btn {
@@ -168,7 +168,7 @@
 .header__search-error-text {
   font-size: 14px;
   line-height: 16px;
-  color: var(--error-text-color);
+  color: getColor('text-error');
 }
 
 .header__link_active {
@@ -182,7 +182,7 @@
   height: 3px;
   top: 14px;
   left: 0;
-  background: var(--accent-color);
+  background: getColor('accent');
   border-radius: 2px;
 }
 
@@ -213,12 +213,10 @@
   text-align: center;
   text-transform: uppercase;
   background-color: inherit;
-  color: var(--white-text-color);
-  opacity: 1;
-  transition: opacity var(--transition-delay) var(--default-transition-timing);
+  color: getColor('text-primary');
+  transition: background-color $animation-delay $animation-cubic;
   cursor: pointer;
-  border: 1px solid var(--white-text-color);
-  transition: transform var(--animation-duration) var(--timing-function);
+  border: 1px solid getColor('text-primary');
   outline: none;
   @media screen and (min-width: 320px) {
     width: 130px;
@@ -233,14 +231,13 @@
 .header__btn:hover {
   border: inherit;
   filter: drop-shadow(0px 8px 43px rgba(255, 107, 1, 0.6));
-  background-color: var(--accent-color);
+  background-color: getColor('accent');
 }
 
 .header__btn:focus,
 .header__btn.in-active {
-  border: 1px solid var(--accent-color);
-  background-color: var(--accent-color);
-  color: var(--white-text-color);
+  border: 1px solid getColor('accent');
+  background-color: getColor('accent');
   transform: scale(1.03);
   filter: drop-shadow(0px 8px 43px rgba(255, 107, 1, 0.6));
 }
