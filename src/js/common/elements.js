@@ -31,3 +31,5 @@ export const modalCommand = document.querySelector('.team__container');
 // storage keys
 export const FILMS_IN_WATCHED = 'MY_WATCHED_LIST';
 export const FILMS_IN_QUEUE = 'MY_QUEUE_LIST';
+//image url
+export const baseImgUrl = 'https://image.tmdb.org/t/p/w342';
