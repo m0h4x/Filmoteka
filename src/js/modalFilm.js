@@ -40,10 +40,9 @@ const addToQueueHandler = item => {
   }
 };
 
-const onCardClick = args => {
+const onCardClick = (args, event) => {
   event.preventDefault();
   event.stopPropagation();
-
   const data = args;
 
   const element = event.target;
@@ -51,7 +50,7 @@ const onCardClick = args => {
   let filmId;
 
   if (element.classList.contains('film__link')) {
-    filmId = parseInt(element.closest('.film__card').dataset.modalId);
+    filmId = parseInt(element.closest('.gallery__card').dataset.modalId);
     const index = data.findIndex(e => e.id === filmId);
     // console.log(data[index]);
 

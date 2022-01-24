@@ -1,3 +1,6 @@
+//элементы страницы
+import * as el from '../common/elements';
+//изображение по умолчанию
 import defaultImage from '../../images/no-cover.jpg';
 const decorGenres = genres => {
   const appendix = '..Other';
@@ -14,9 +17,8 @@ const decorGenres = genres => {
 };
 
 const filmCard = (film, isLibrary) => {
-  const baseImgUrl = 'https://image.tmdb.org/t/p/w342';
   const { id, poster_path, title, genres, release_date, vote_average } = film;
-  const image = poster_path ? baseImgUrl + poster_path : defaultImage;
+  const image = poster_path ? el.baseImgUrl + poster_path : defaultImage;
   const filmGenres = decorGenres(genres);
   const rating = isLibrary ? `<span class="film__rating">${vote_average}</span>` : '';
   return `<li class="gallery__card" data-modal-id=${id}>
