@@ -43,11 +43,14 @@ const addToQueueHandler = item => {
 const onCardClick = (args, event) => {
   event.preventDefault();
   event.stopPropagation();
-
   const data = args;
   const element = event.target;
   // console.log(element);
   let filmId;
+
+  if (basicLightbox.visible()) {
+    return;
+  }
 
   if (element.classList.contains('film__link')) {
     filmId = parseInt(element.closest('.gallery__card').dataset.modalId);
@@ -90,10 +93,14 @@ const onCardClick = (args, event) => {
     btnWatched.addEventListener('click', addToWatchedHandler.bind(null, data[index]));
     btnQueue.addEventListener('click', addToQueueHandler.bind(null, data[index]));
 
-    if (basicLightbox.visible()) {
-      return;
-    }
-    lightboxInstance.show();
+    lightboxInstance.show(instance => {
+      // close on escape key press
+      document.onkeydown = e => {
+        if (e.key === 'Escape') {
+          instance.close();
+        }
+      };
+    });
 
     const closeBtn = document.querySelector('.modal__close-btn');
     closeBtn.addEventListener('click', () => {
