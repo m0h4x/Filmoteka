@@ -43,6 +43,7 @@ const addToQueueHandler = item => {
 const onCardClick = (args, event) => {
   event.preventDefault();
   event.stopPropagation();
+  const data = args;
 
   const data = args;
   const element = event.target;

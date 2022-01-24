@@ -11,7 +11,6 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 // импорт функции для запроса на список самых популярных фильмов на сегодня
 import renderTopFilms from '../API/topFilmsComponent';
 import renderFoundByNameFilms from '../API/searchedByNameComponent';
-
 // импорт функции для показа модалки
 import { onCardClick } from '../modalFilm';
 
@@ -166,8 +165,6 @@ export const changePage = eventData => {
 
 //срабатывает при первой загрузке
 export const firstLoad = event => {
-  el.gallery.innerHTML = '';
-  el.gallery.removeEventListener('click', onCardClick);
   pagination.on('beforeMove', changePage);
   changePage();
 };
