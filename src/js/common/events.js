@@ -19,10 +19,14 @@ import * as el from './elements';
 
 //глобальные переменные
 let page = 1;
+let libraryPage = 1;
 let results = 1;
 let isTopQuery = true;
+let isLibrary = false;
 let films = [];
+let libraryFilms = [];
 let searchText = '';
+const ITEMS_ON_PAGE = 20;
 
 //функции меняющие вид страницы
 //показывает главную
@@ -37,7 +41,10 @@ export const viewMain = event => {
   el.libraryBtns.classList.add('hidden');
   el.gallery.innerHTML = '';
   el.gallery.removeEventListener('click', onCardClick);
+  isLibrary = false;
   viewGallery(films);
+  pagination.setTotalItems(results);
+  pagination.movePageTo(page);
 };
 //показывает библиотеку
 export const viewLibrary = event => {
@@ -51,18 +58,21 @@ export const viewLibrary = event => {
   el.btnWatched.addEventListener('click', viewWatched);
   el.gallery.innerHTML = '';
   el.gallery.removeEventListener('click', onCardClick);
+  isLibrary = true;
   viewWatched();
 };
 
 //показывает список просмотренных фильмов
 const viewWatched = event => {
-  const films = getItemsInLocalStorage(el.FILMS_IN_WATCHED);
-  viewGallery(films, true);
+  libraryFilms = getItemsInLocalStorage(el.FILMS_IN_WATCHED);
+  pagination.setTotalItems(libraryFilms.length);
+  changePage();
 };
 //показывает очередь просмотра фильмов
 const viewQueue = event => {
-  const films = getItemsInLocalStorage(el.FILMS_IN_QUEUE);
-  viewGallery(films, true);
+  libraryFilms = getItemsInLocalStorage(el.FILMS_IN_QUEUE);
+  pagination.setTotalItems(libraryFilms.length);
+  changePage();
 };
 
 //обработчики событий
@@ -94,6 +104,13 @@ function renderError(error) {
     hideLoader();
   });
 }
+//обновляет библоиотеку
+const renderLibray = () => {
+  const begin = (libraryPage - 1) * ITEMS_ON_PAGE;
+  const end = libraryPage * ITEMS_ON_PAGE;
+  const pageFilms = libraryFilms.slice(begin, end);
+  viewGallery(pageFilms);
+};
 //срабатывает при успешном завершении запроса
 function renderReady(inputFilms, total_results) {
   results = total_results;
@@ -108,6 +125,16 @@ function renderReady(inputFilms, total_results) {
 }
 //срабатывает при смене страницы
 export const changePage = eventData => {
+  if (isLibrary) {
+    if (eventData) {
+      libraryPage = eventData.page;
+    } else {
+      pagination.movePageTo(libraryPage);
+      return;
+    }
+    renderLibray();
+    return;
+  }
   if (eventData) {
     page = eventData.page;
   } else {
