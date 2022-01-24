@@ -1,20 +1,17 @@
 .modal__container {
   position: relative;
   max-width: 280px;
-  max-height: 958px;
   padding: 48px 20px;
   // border: 1px solid blueviolet;
   background-color: #ffffff;
 
   @media screen and (min-width: 768px) {
     max-width: 618px;
-    max-height: 562px;
     padding: 48px 28px;
   }
 
   @media screen and (min-width: 1200px) {
     max-width: 882px;
-    max-height: 568px;
     padding: 48px 30px;
   }
 }
@@ -48,15 +45,15 @@
     border-radius: 5px;
   }
 
+  @media screen and (min-width: 1200px) {
+    flex: 0 1 396px;
+  }
+
   img {
     border-radius: 5px;
-    max-height: 357px;
+
     @media screen and (min-width: 320px) and (max-width: 767px) {
       margin-bottom: 30px;
-      max-height: 474px;
-    }
-    @media screen and (min-width: 1200px) {
-      max-height: 478px;
     }
   }
 }
@@ -171,10 +168,4 @@
   display: flex;
   justify-content: space-between;
   gap: 10px;
-}
-
-.modal-overview {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
