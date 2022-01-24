@@ -11,6 +11,6 @@ el.logo.addEventListener('click', ev.viewMain);
 el.homeBtn.addEventListener('click', ev.viewMain);
 el.libraryBtn.addEventListener('click', ev.viewLibrary);
 el.searchForm.addEventListener('submit', ev.searchFilms);
-el.openCommandModalBtn.addEventListener('click', showCommand);
-el.closeCommandModalBtn.addEventListener('click', showCommand);
+el.libraryBtn.addEventListener('click', ev.viewLibrary);
+el.searchForm.addEventListener('submit', ev.searchFilms);
 document.addEventListener('DOMContentLoaded', ev.firstLoad);
