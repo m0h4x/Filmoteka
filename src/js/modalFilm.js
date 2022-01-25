@@ -85,7 +85,7 @@ const addToWatchedQueueHandler = event => {
 const filmModalHandler = filmsArray => {
   // console.log(filmsArray);
   data = filmsArray;
-
+  
   event.preventDefault();
   event.stopPropagation();
   const card = event.target;

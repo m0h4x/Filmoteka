@@ -40,6 +40,7 @@ export const viewMain = event => {
   el.searchForm.classList.remove('hidden');
   el.libraryBtns.classList.add('hidden');
   el.gallery.innerHTML = '';
+  el.gallery.removeEventListener('click', onCardClick);
   isLibrary = false;
   viewGallery(films);
   pagination.setTotalItems(results);
@@ -156,6 +157,13 @@ export const changePage = eventData => {
     renderTopFilms(page, renderReady, renderError);
   } else {
     renderFoundByNameFilms(page, searchText, renderReady, renderError);
+  }
+  if (window.pageYOffset > 0) {
+    window.scrollTo({
+      top: 250,
+      left: 0,
+      behavior: 'smooth',
+    });
   }
 };
 
