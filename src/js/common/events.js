@@ -161,6 +161,13 @@ export const changePage = eventData => {
   } else {
     renderFoundByNameFilms(page, searchText, renderReady, renderError);
   }
+  if (window.pageYOffset > 0) {
+    window.scrollTo({
+      top: 250,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }
 };
 
 //срабатывает при первой загрузке
