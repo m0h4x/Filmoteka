@@ -34,8 +34,6 @@ export const viewMain = event => {
   event.preventDefault();
   el.btnQueue.removeEventListener('click', viewQueue);
   el.btnWatched.removeEventListener('click', viewWatched);
-  el.btnWatched.removeEventListener('focus', focusWatched);
-  el.btnQueue.removeEventListener('focus', focusQueue);
   el.homeLink.classList.add('header__link_active');
   el.libraryLink.classList.remove('header__link_active');
   el.header.classList.remove('header__background-library');
@@ -58,25 +56,13 @@ export const viewLibrary = event => {
   el.header.classList.add('header__background-library');
   el.btnQueue.addEventListener('click', viewQueue);
   el.btnWatched.addEventListener('click', viewWatched);
-  el.btnWatched.addEventListener('focus', focusWatched);
-  el.btnQueue.addEventListener('focus', focusQueue);
   el.gallery.innerHTML = '';
   el.gallery.removeEventListener('click', onCardClick);
   isLibrary = true;
   viewWatched();
-  focusWatched();
 };
-//меняет вид кнопки Watched
-export const focusWatched = () => {
-  el.btnWatched.classList.add('in-active');
-  el.btnQueue.classList.remove('in-active');
-};
-//меняет вид кнопки Queue
-export const focusQueue = () => {
-  el.btnWatched.classList.remove('in-active');
-  el.btnQueue.classList.add('in-active');
-};
-//показывает список просмотренных фильмов .
+
+//показывает список просмотренных фильмов
 const viewWatched = event => {
   libraryFilms = getItemsInLocalStorage(el.FILMS_IN_WATCHED);
   pagination.setTotalItems(libraryFilms.length);
