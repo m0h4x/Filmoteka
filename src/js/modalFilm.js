@@ -38,7 +38,7 @@ const addToQueueHandler = item => {
   }
 };
 
-const onCardClick = args => {
+const onCardClick = (args, event) => {
   event.preventDefault();
   event.stopPropagation();
   const data = args;
