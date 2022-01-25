@@ -42,7 +42,6 @@ export const viewMain = event => {
   el.searchForm.classList.remove('hidden');
   el.libraryBtns.classList.add('hidden');
   el.gallery.innerHTML = '';
-  el.gallery.removeEventListener('click', onCardClick);
   isLibrary = false;
   viewGallery(films);
   pagination.setTotalItems(results);
