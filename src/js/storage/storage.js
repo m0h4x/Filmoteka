@@ -1,7 +1,7 @@
 const addToLocalStorage = (key, value) => {
   let currArray = [];
 
-  console.log(key, value);
+  // console.log(key, value.id);
 
   if (localStorage.getItem(key) !== null) {
     currArray = [...JSON.parse(localStorage.getItem(key))];

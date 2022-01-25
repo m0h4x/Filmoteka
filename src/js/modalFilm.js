@@ -1,14 +1,12 @@
 import * as basicLightbox from 'basiclightbox';
 import 'basiclightbox/dist/basicLightbox.min.css';
-import { gallery, FILMS_IN_WATCHED, FILMS_IN_QUEUE } from './common/elements';
+import { gallery, baseImgUrl, FILMS_IN_WATCHED, FILMS_IN_QUEUE } from './common/elements';
 import {
   addToLocalStorage,
   checkItemInLocalStorage,
   removeFromLocalStorage,
 } from './storage/storage';
-
-// global values
-const BASE_IMG_URL = 'https://image.tmdb.org/t/p/w342';
+import defaultImage from '../images/no-cover.jpg';
 
 const addToWatchedHandler = item => {
   const elem = event.target;
@@ -62,8 +60,16 @@ const onCardClick = (args, event) => {
 
     const tpl = modalTemplate.content;
 
+    const image =
+      typeof data[index] !== 'undefined' ? baseImgUrl + data[index].poster_path : defaultImage;
+
+    // console.log(image);
+
     // вставляем значения собранные с обьекта в нужные нам поля
-    tpl.querySelector('.modal-image img').src = BASE_IMG_URL + data[index].poster_path;
+    tpl.querySelector('.modal-image img').src = image;
+
+    // console.log('click');
+
     tpl.querySelector('.modal-content h3').textContent = data[index].title;
     tpl.querySelector('[data-attr="orig-title"]').textContent = data[index].original_title;
     tpl.querySelector('[data-attr="avg-rating"]').textContent = data[index].vote_average;
@@ -73,7 +79,27 @@ const onCardClick = (args, event) => {
     tpl.querySelector('[data-attr="overview"]').textContent = data[index].overview;
 
     // создаем инстанс лайтбокса
-    const lightboxInstance = basicLightbox.create(modalTemplate);
+    const lightboxInstance = basicLightbox.create(modalTemplate, {
+      onShow: instance => {
+        const container = instance.element();
+        const closeBtn = container.querySelector('.modal__close-btn');
+
+        closeBtn.addEventListener(
+          'click',
+          e => {
+            instance.close();
+          },
+          { once: true },
+        );
+
+        // close on escape key press
+        document.onkeydown = e => {
+          if (e.key === 'Escape') {
+            instance.close();
+          }
+        };
+      },
+    });
     const elem = lightboxInstance.element();
     const btnWatched = elem.querySelector('.modal-btn-watched');
     const btnQueue = elem.querySelector('.modal-btn-queue');
@@ -93,19 +119,7 @@ const onCardClick = (args, event) => {
     btnWatched.addEventListener('click', addToWatchedHandler.bind(null, data[index]));
     btnQueue.addEventListener('click', addToQueueHandler.bind(null, data[index]));
 
-    lightboxInstance.show(instance => {
-      // close on escape key press
-      document.onkeydown = e => {
-        if (e.key === 'Escape') {
-          instance.close();
-        }
-      };
-    });
-
-    const closeBtn = document.querySelector('.modal__close-btn');
-    closeBtn.addEventListener('click', () => {
-      lightboxInstance.close();
-    });
+    lightboxInstance.show();
   }
 };
 
