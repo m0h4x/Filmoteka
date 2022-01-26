@@ -130,7 +130,6 @@ function renderReady(inputFilms, total_results) {
     results = total_results;
     const renderedFilms = makeGallery(dataFilms);
     if (page == 1) {
-      console.log(results);
       pagination.reset(results);
     }
     viewGallery(renderedFilms);
