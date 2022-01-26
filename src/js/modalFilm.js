@@ -1,12 +1,13 @@
 import * as basicLightbox from 'basiclightbox';
 import 'basiclightbox/dist/basicLightbox.min.css';
-import { gallery, FILMS_IN_WATCHED, FILMS_IN_QUEUE } from './common/elements';
+import { gallery, FILMS_IN_WATCHED, FILMS_IN_QUEUE, body } from './common/elements';
+import * as ev from './common/events';
 import {
   addToLocalStorage,
   checkItemInLocalStorage,
   removeFromLocalStorage,
 } from './storage/storage';
-
+import { ApiService } from './BLL/themoviedb';
 import defaultImage from '/images/no-cover.jpg';
 
 // global values
@@ -27,6 +28,8 @@ const RM_FROM_WATCHED = 'remove from watched';
 const ADD_TO_QUEUE = 'add to queue';
 const RM_FROM_QUEUE = 'remove from queue';
 
+let film = {};
+
 // modal film template
 const modalTemplate = document.querySelector('#modalFilmTemplate');
 // создаем инстанс лайтбокса
@@ -36,7 +39,9 @@ const lightboxInstance = basicLightbox.create(modalTemplate, {
     const closeBtn = container.querySelector('.modal__close-btn');
     const btnWatched = container.querySelector('.modal-btn-watched');
     const btnQueue = container.querySelector('.modal-btn-queue');
-
+    body.classList.add('disable-scroll');
+    btnWatched.addEventListener('click', ev.refreshLibrary.bind(null, instance));
+    btnQueue.addEventListener('click', ev.refreshLibrary.bind(null, instance));
     btnWatched.addEventListener('click', addToWatchedQueueHandler);
     btnQueue.addEventListener('click', addToWatchedQueueHandler);
 
@@ -59,16 +64,17 @@ const lightboxInstance = basicLightbox.create(modalTemplate, {
     const container = instance.element();
     const btnWatched = container.querySelector('.modal-btn-watched');
     const btnQueue = container.querySelector('.modal-btn-queue');
-
+    body.classList.remove('disable-scroll');
     btnWatched.removeEventListener('click', addToWatchedQueueHandler);
     btnQueue.removeEventListener('click', addToWatchedQueueHandler);
+    btnWatched.removeEventListener('click', ev.refreshLibrary);
+    btnQueue.removeEventListener('click', ev.refreshLibrary);
   },
 });
 
-let film = {};
-
 const addToWatchedQueueHandler = event => {
   event.stopPropagation();
+
   const elem = event.target;
   const currText = elem.textContent;
 
@@ -106,10 +112,11 @@ const filmModalHandler = (getFilm, event) => {
   if (card.classList.contains('film__link')) {
     lightboxInstance.show(instance => {
       const filmId = parseInt(card.closest('.gallery__card').dataset.modalId);
-      // console.log(data[filmIndex]);
-      // console.log(filmId);
       film = getFilm(filmId);
-      //console.log(film);
+      /*       const filmInfo = ApiService.getFilmInfo(filmId).then(info => {
+        console.log(info.videos);
+      }); */
+
       const image = film.poster_path ? getImageUrl() + film.poster_path : defaultImage;
 
       const elem = instance.element();
