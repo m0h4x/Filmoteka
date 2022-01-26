@@ -32,8 +32,6 @@ export const viewMain = event => {
   event.preventDefault();
   el.btnQueue.removeEventListener('click', viewQueue);
   el.btnWatched.removeEventListener('click', viewWatched);
-  el.btnWatched.removeEventListener('focus', focusWatched);
-  el.btnQueue.removeEventListener('focus', focusQueue);
   el.homeLink.classList.add('header__link_active');
   el.libraryLink.classList.remove('header__link_active');
   el.header.classList.remove('header__background-library');
@@ -58,19 +56,9 @@ export const viewLibrary = event => {
   el.btnQueue.addEventListener('focus', focusQueue);
   isLibrary = true;
   viewWatched();
-  focusWatched();
 };
-//меняет вид кнопки Watched
-export const focusWatched = () => {
-  el.btnWatched.classList.add('in-active');
-  el.btnQueue.classList.remove('in-active');
-};
-//меняет вид кнопки Queue
-export const focusQueue = () => {
-  el.btnWatched.classList.remove('in-active');
-  el.btnQueue.classList.add('in-active');
-};
-//показывает список просмотренных фильмов .
+
+//показывает список просмотренных фильмов
 const viewWatched = event => {
   dataFilms = getItemsInLocalStorage(el.FILMS_IN_WATCHED);
   pagination.movePageTo(1);

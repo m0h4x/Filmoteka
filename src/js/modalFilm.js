@@ -1,12 +1,14 @@
 import * as basicLightbox from 'basiclightbox';
 import 'basiclightbox/dist/basicLightbox.min.css';
-import { gallery, baseImgUrl, FILMS_IN_WATCHED, FILMS_IN_QUEUE } from './common/elements';
+import { gallery, FILMS_IN_WATCHED, FILMS_IN_QUEUE } from './common/elements';
 import {
   addToLocalStorage,
   checkItemInLocalStorage,
   removeFromLocalStorage,
 } from './storage/storage';
-import defaultImage from '../images/no-cover.jpg';
+
+// global values
+const BASE_IMG_URL = 'https://image.tmdb.org/t/p/w342';
 
 const ADD_TO_WATCHED = 'add to watched';
 const RM_FROM_WATCHED = 'remove from watched';
@@ -86,6 +88,7 @@ const filmModalHandler = (getFilm, event) => {
 
   event.preventDefault();
   event.stopPropagation();
+
   const card = event.target;
   // console.log(card);
 

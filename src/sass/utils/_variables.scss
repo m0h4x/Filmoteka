@@ -27,3 +27,11 @@ $colors: (
 
 $animation-cubic: cubic-bezier(0.4, 0, 0.2, 1);
 $animation-delay: 250ms;
+
+:root {
+  --white-text-color: #ffffff;
+  --accent-color: #ff6b08;
+  --transition-delay: 500ms;
+  --default-transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+  --error-text-color: #ff001b;
+}
