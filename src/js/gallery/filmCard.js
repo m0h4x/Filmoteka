@@ -23,7 +23,7 @@ const filmCard = (film, isLibrary) => {
   const rating = isLibrary ? `<span class="film__rating">${vote_average}</span>` : '';
   return `<li class="gallery__card" data-modal-id=${id}>
   <a class="film__link" href="#">
-    <img class="film__cover" src="${image}" alt="${title}" loading="lazy"/>
+    <img class="film__cover" src="${image}" alt="${title}" />
     <p class="film__title">${title}</p>
     <div class="film__info">
       <span class="film__genre">${filmGenres}</span>
