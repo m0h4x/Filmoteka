@@ -7,8 +7,19 @@ import {
   removeFromLocalStorage,
 } from './storage/storage';
 
+import defaultImage from '/images/no-cover.jpg';
+
 // global values
+const DESKTOP_WIDTH = 1024;
 const BASE_IMG_URL = 'https://image.tmdb.org/t/p/w342';
+const DESKTOP_IMG_URL = 'https://image.tmdb.org/t/p/w500';
+const getImageUrl = () => {
+  const width = document.documentElement.clientWidth;
+  if (width < DESKTOP_WIDTH) {
+    return BASE_IMG_URL;
+  }
+  return DESKTOP_IMG_URL;
+};
 
 const ADD_TO_WATCHED = 'add to watched';
 const RM_FROM_WATCHED = 'remove from watched';
@@ -99,7 +110,7 @@ const filmModalHandler = (getFilm, event) => {
       // console.log(filmId);
       film = getFilm(filmId);
       //console.log(film);
-      const image = film.poster_path ? baseImgUrl + film.poster_path : defaultImage;
+      const image = film.poster_path ? getImageUrl() + film.poster_path : defaultImage;
 
       const elem = instance.element();
       const btnWatched = elem.querySelector('.modal-btn-watched');
