@@ -82,10 +82,9 @@ const addToWatchedQueueHandler = event => {
   }
 };
 
-const filmModalHandler = filmsArray => {
+const filmModalHandler = (getFilm, event) => {
   // console.log(filmsArray);
-  data = filmsArray;
-  
+
   event.preventDefault();
   event.stopPropagation();
   const card = event.target;
@@ -94,13 +93,11 @@ const filmModalHandler = filmsArray => {
   if (card.classList.contains('film__link')) {
     lightboxInstance.show(instance => {
       const filmId = parseInt(card.closest('.gallery__card').dataset.modalId);
-      filmIndex = data.findIndex(e => e.id === filmId);
       // console.log(data[filmIndex]);
       // console.log(filmId);
-
-      const image = data[filmIndex].poster_path
-        ? baseImgUrl + data[filmIndex].poster_path
-        : defaultImage;
+      const film = getFilm(filmId);
+      //console.log(film);
+      const image = film.poster_path ? baseImgUrl + film.poster_path : defaultImage;
 
       const elem = instance.element();
       const btnWatched = elem.querySelector('.modal-btn-watched');
@@ -108,13 +105,13 @@ const filmModalHandler = filmsArray => {
 
       // вставляем значения собранные с обьекта в нужные нам поля
       elem.querySelector('.modal-image img').src = image;
-      elem.querySelector('.modal-content h3').textContent = data[filmIndex].title;
-      elem.querySelector('[data-attr="orig-title"]').textContent = data[filmIndex].original_title;
-      elem.querySelector('[data-attr="avg-rating"]').textContent = data[filmIndex].vote_average;
-      elem.querySelector('[data-attr="vote-count"]').textContent = data[filmIndex].vote_count;
-      elem.querySelector('[data-attr="genre"]').textContent = data[filmIndex].genres.join(', ');
-      elem.querySelector('[data-attr="popularity"]').textContent = data[filmIndex].popularity;
-      elem.querySelector('[data-attr="overview"]').textContent = data[filmIndex].overview;
+      elem.querySelector('.modal-content h3').textContent = film.title;
+      elem.querySelector('[data-attr="orig-title"]').textContent = film.original_title;
+      elem.querySelector('[data-attr="avg-rating"]').textContent = film.vote_average;
+      elem.querySelector('[data-attr="vote-count"]').textContent = film.vote_count;
+      elem.querySelector('[data-attr="genre"]').textContent = film.genres.join(', ');
+      elem.querySelector('[data-attr="popularity"]').textContent = film.popularity;
+      elem.querySelector('[data-attr="overview"]').textContent = film.overview;
       btnWatched.textContent = ADD_TO_WATCHED;
       btnQueue.textContent = ADD_TO_QUEUE;
 

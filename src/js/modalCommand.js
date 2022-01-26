@@ -13,16 +13,24 @@ const closeOnEscape = event => {
 };
 
 const closeModal = event => {
-  el.modalCommand.classList.toggle('is-hidden');
-  el.backdrop.classList.toggle('is-hidden');
-  el.body.classList.toggle('disable-scroll');
+  el.closeCommandModalBtn.removeEventListener('click', closeModal);
+  el.backdrop.removeEventListener('click', closeOnEscape);
+  el.body.removeEventListener('keyup', closeOnEscape);
+  el.modalCommand.classList.add('is-hidden');
+  el.backdrop.classList.add('is-hidden');
+  el.body.classList.remove('disable-scroll');
+};
+
+const openModal = event => {
+  el.modalCommand.classList.remove('is-hidden');
+  el.backdrop.classList.remove('is-hidden');
+  el.body.classList.add('disable-scroll');
+  el.closeCommandModalBtn.addEventListener('click', closeModal);
+  el.backdrop.addEventListener('click', closeOnEscape);
+  el.body.addEventListener('keyup', closeOnEscape);
 };
 
 export default event => {
   event.preventDefault();
-  closeModal();
-  el.backdrop.removeEventListener('click', closeOnEscape);
-  el.backdrop.addEventListener('click', closeOnEscape);
-  el.body.removeEventListener('keyup', closeOnEscape);
-  el.body.addEventListener('keyup', closeOnEscape);
+  openModal();
 };

@@ -47,6 +47,14 @@
 }
 
 .film__title {
+  max-width: 280px;
+  @media screen and (min-width: 768px) {
+    max-width: 294px;
+  }
+
+  @media screen and (min-width: 1024px) {
+    max-width: 274px;
+  }
   margin-top: 10px;
   color: getColor('text-secondary');
   text-transform: uppercase;
