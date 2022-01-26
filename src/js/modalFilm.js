@@ -52,8 +52,7 @@ const lightboxInstance = basicLightbox.create(modalTemplate, {
   },
 });
 
-let data = [];
-let filmIndex;
+let film = {};
 
 const addToWatchedQueueHandler = event => {
   event.stopPropagation();
@@ -65,19 +64,19 @@ const addToWatchedQueueHandler = event => {
   switch (currText) {
     case ADD_TO_WATCHED:
       elem.textContent = RM_FROM_WATCHED;
-      addToLocalStorage(FILMS_IN_WATCHED, data[filmIndex]);
+      addToLocalStorage(FILMS_IN_WATCHED, film);
       break;
     case RM_FROM_WATCHED:
       elem.textContent = ADD_TO_WATCHED;
-      removeFromLocalStorage(FILMS_IN_WATCHED, data[filmIndex]);
+      removeFromLocalStorage(FILMS_IN_WATCHED, film);
       break;
     case ADD_TO_QUEUE:
       elem.textContent = RM_FROM_QUEUE;
-      addToLocalStorage(FILMS_IN_QUEUE, data[filmIndex]);
+      addToLocalStorage(FILMS_IN_QUEUE, film);
       break;
     default:
       elem.textContent = ADD_TO_QUEUE;
-      removeFromLocalStorage(FILMS_IN_QUEUE, data[filmIndex]);
+      removeFromLocalStorage(FILMS_IN_QUEUE, film);
       break;
   }
 };
@@ -95,7 +94,7 @@ const filmModalHandler = (getFilm, event) => {
       const filmId = parseInt(card.closest('.gallery__card').dataset.modalId);
       // console.log(data[filmIndex]);
       // console.log(filmId);
-      const film = getFilm(filmId);
+      film = getFilm(filmId);
       //console.log(film);
       const image = film.poster_path ? baseImgUrl + film.poster_path : defaultImage;
 
