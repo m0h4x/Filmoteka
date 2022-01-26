@@ -10,102 +10,135 @@ import {
 // global values
 const BASE_IMG_URL = 'https://image.tmdb.org/t/p/w342';
 
-const addToWatchedHandler = item => {
+const ADD_TO_WATCHED = 'add to watched';
+const RM_FROM_WATCHED = 'remove from watched';
+
+const ADD_TO_QUEUE = 'add to queue';
+const RM_FROM_QUEUE = 'remove from queue';
+
+// modal film template
+const modalTemplate = document.querySelector('#modalFilmTemplate');
+// создаем инстанс лайтбокса
+const lightboxInstance = basicLightbox.create(modalTemplate, {
+  onShow: instance => {
+    const container = instance.element();
+    const closeBtn = container.querySelector('.modal__close-btn');
+    const btnWatched = container.querySelector('.modal-btn-watched');
+    const btnQueue = container.querySelector('.modal-btn-queue');
+
+    btnWatched.addEventListener('click', addToWatchedQueueHandler);
+    btnQueue.addEventListener('click', addToWatchedQueueHandler);
+
+    closeBtn.addEventListener(
+      'click',
+      e => {
+        instance.close();
+      },
+      { once: true },
+    );
+
+    // close on escape key press
+    document.onkeydown = e => {
+      if (e.key === 'Escape') {
+        instance.close();
+      }
+    };
+  },
+  onClose: instance => {
+    const container = instance.element();
+    const btnWatched = container.querySelector('.modal-btn-watched');
+    const btnQueue = container.querySelector('.modal-btn-queue');
+
+    btnWatched.removeEventListener('click', addToWatchedQueueHandler);
+    btnQueue.removeEventListener('click', addToWatchedQueueHandler);
+  },
+});
+
+let film = {};
+
+const addToWatchedQueueHandler = event => {
+  event.stopPropagation();
   const elem = event.target;
   const currText = elem.textContent;
 
   elem.classList.toggle('active');
 
-  if (currText.toLowerCase().trim() === 'add to watched') {
-    elem.textContent = 'remove from watched';
-    addToLocalStorage(FILMS_IN_WATCHED, item);
-  } else {
-    elem.textContent = 'add to watched';
-    removeFromLocalStorage(FILMS_IN_WATCHED, item);
+  switch (currText) {
+    case ADD_TO_WATCHED:
+      elem.textContent = RM_FROM_WATCHED;
+      addToLocalStorage(FILMS_IN_WATCHED, film);
+      break;
+    case RM_FROM_WATCHED:
+      elem.textContent = ADD_TO_WATCHED;
+      removeFromLocalStorage(FILMS_IN_WATCHED, film);
+      break;
+    case ADD_TO_QUEUE:
+      elem.textContent = RM_FROM_QUEUE;
+      addToLocalStorage(FILMS_IN_QUEUE, film);
+      break;
+    default:
+      elem.textContent = ADD_TO_QUEUE;
+      removeFromLocalStorage(FILMS_IN_QUEUE, film);
+      break;
   }
 };
 
-const addToQueueHandler = item => {
-  const elem = event.target;
-  const currText = elem.textContent;
+const filmModalHandler = (getFilm, event) => {
+  // console.log(filmsArray);
 
-  elem.classList.toggle('active');
-
-  if (currText.toLowerCase().trim() === 'add to queue') {
-    elem.textContent = 'remove from queue';
-    addToLocalStorage(FILMS_IN_QUEUE, item);
-  } else {
-    elem.textContent = 'add to queue';
-    removeFromLocalStorage(FILMS_IN_QUEUE, item);
-  }
-};
-
-const onCardClick = (args, event) => {
   event.preventDefault();
   event.stopPropagation();
-  const data = args;
 
-  const element = event.target;
-  // console.log(element);
-  let filmId;
+  const card = event.target;
+  // console.log(card);
 
-  if (element.classList.contains('film__link')) {
-    filmId = parseInt(element.closest('.gallery__card').dataset.modalId);
-    const index = data.findIndex(e => e.id === filmId);
-    // console.log(data[index]);
+  if (card.classList.contains('film__link')) {
+    lightboxInstance.show(instance => {
+      const filmId = parseInt(card.closest('.gallery__card').dataset.modalId);
+      // console.log(data[filmIndex]);
+      // console.log(filmId);
+      film = getFilm(filmId);
+      //console.log(film);
+      const image = film.poster_path ? baseImgUrl + film.poster_path : defaultImage;
 
-    // modal film template
-    const modalTemplate = document.querySelector('#modalFilmTemplate');
+      const elem = instance.element();
+      const btnWatched = elem.querySelector('.modal-btn-watched');
+      const btnQueue = elem.querySelector('.modal-btn-queue');
 
-    const tpl = modalTemplate.content;
+      // вставляем значения собранные с обьекта в нужные нам поля
+      elem.querySelector('.modal-image img').src = image;
+      elem.querySelector('.modal-content h3').textContent = film.title;
+      elem.querySelector('[data-attr="orig-title"]').textContent = film.original_title;
+      elem.querySelector('[data-attr="avg-rating"]').textContent = film.vote_average;
+      elem.querySelector('[data-attr="vote-count"]').textContent = film.vote_count;
+      elem.querySelector('[data-attr="genre"]').textContent = film.genres.join(', ');
+      elem.querySelector('[data-attr="popularity"]').textContent = film.popularity;
+      elem.querySelector('[data-attr="overview"]').textContent = film.overview;
+      btnWatched.textContent = ADD_TO_WATCHED;
+      btnQueue.textContent = ADD_TO_QUEUE;
 
-    // вставляем значения собранные с обьекта в нужные нам поля
-    tpl.querySelector('.modal-image img').src = BASE_IMG_URL + data[index].poster_path;
-    tpl.querySelector('.modal-content h3').textContent = data[index].title;
-    tpl.querySelector('[data-attr="orig-title"]').textContent = data[index].original_title;
-    tpl.querySelector('[data-attr="avg-rating"]').textContent = data[index].vote_average;
-    tpl.querySelector('[data-attr="vote-count"]').textContent = data[index].vote_count;
-    tpl.querySelector('[data-attr="genre"]').textContent = data[index].genres.join(', ');
-    tpl.querySelector('[data-attr="popularity"]').textContent = data[index].popularity;
-    tpl.querySelector('[data-attr="overview"]').textContent = data[index].overview;
+      // reset active states from template
+      if (btnWatched.classList.contains('active')) {
+        btnWatched.classList.remove('active');
+      }
 
-    // создаем инстанс лайтбокса
-    const lightboxInstance = basicLightbox.create(modalTemplate);
-    const elem = lightboxInstance.element();
-    const btnWatched = elem.querySelector('.modal-btn-watched');
-    const btnQueue = elem.querySelector('.modal-btn-queue');
+      if (btnQueue.classList.contains('active')) {
+        btnQueue.classList.remove('active');
+      }
 
-    // check if the film is already in WatchList
-    if (checkItemInLocalStorage(FILMS_IN_WATCHED, filmId)) {
-      btnWatched.classList.add('active');
-      btnWatched.textContent = 'remove from watched';
-    }
+      // check if the film is already in WatchList
+      if (checkItemInLocalStorage(FILMS_IN_WATCHED, filmId)) {
+        btnWatched.classList.add('active');
+        btnWatched.textContent = RM_FROM_WATCHED;
+      }
 
-    // check if the film is already in Queue
-    if (checkItemInLocalStorage(FILMS_IN_QUEUE, filmId)) {
-      btnQueue.classList.add('active');
-      btnQueue.textContent = 'remove from queue';
-    }
-
-    btnWatched.addEventListener('click', addToWatchedHandler.bind(null, data[index]));
-    btnQueue.addEventListener('click', addToQueueHandler.bind(null, data[index]));
-
-    if (basicLightbox.visible()) {
-      return;
-    }
-    lightboxInstance.show();
-
-    const closeBtn = document.querySelector('.modal__close-btn');
-    closeBtn.addEventListener('click', () => {
-      lightboxInstance.close();
+      // check if the film is already in Queue
+      if (checkItemInLocalStorage(FILMS_IN_QUEUE, filmId)) {
+        btnQueue.classList.add('active');
+        btnQueue.textContent = RM_FROM_QUEUE;
+      }
     });
   }
 };
 
-const filmModalHandler = filmsArray => {
-  // console.log(filmsArray);
-
-  gallery.addEventListener('click', onCardClick.bind(null, filmsArray));
-};
-
-export { onCardClick, filmModalHandler };
+export default filmModalHandler;

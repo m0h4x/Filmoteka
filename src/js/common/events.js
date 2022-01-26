@@ -11,20 +11,18 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 // импорт функции для запроса на список самых популярных фильмов на сегодня
 import renderTopFilms from '../API/topFilmsComponent';
 import renderFoundByNameFilms from '../API/searchedByNameComponent';
-// импорт функции для показа модалки
-import { onCardClick } from '../modalFilm';
+// импорт функции для рендера разметки
+import makeGallery from '../gallery/makeGallery';
 
 //элементы страницы
 import * as el from './elements';
 
 //глобальные переменные
 let page = 1;
-let libraryPage = 1;
-let results = 1;
 let isTopQuery = true;
 let isLibrary = false;
-let films = [];
-let libraryFilms = [];
+let renderedFilms = [];
+let dataFilms = [];
 let searchText = '';
 const ITEMS_ON_PAGE = 20;
 
@@ -39,12 +37,10 @@ export const viewMain = event => {
   el.header.classList.remove('header__background-library');
   el.searchForm.classList.remove('hidden');
   el.libraryBtns.classList.add('hidden');
-  el.gallery.innerHTML = '';
-  el.gallery.removeEventListener('click', onCardClick);
   isLibrary = false;
-  viewGallery(films);
-  pagination.setTotalItems(results);
-  pagination.movePageTo(page);
+  isTopQuery = true;
+  pagination.movePageTo(1);
+  changeRender();
 };
 //показывает библиотеку
 export const viewLibrary = event => {
@@ -56,23 +52,23 @@ export const viewLibrary = event => {
   el.header.classList.add('header__background-library');
   el.btnQueue.addEventListener('click', viewQueue);
   el.btnWatched.addEventListener('click', viewWatched);
-  el.gallery.innerHTML = '';
-  el.gallery.removeEventListener('click', onCardClick);
+  el.btnWatched.addEventListener('focus', focusWatched);
+  el.btnQueue.addEventListener('focus', focusQueue);
   isLibrary = true;
   viewWatched();
 };
 
 //показывает список просмотренных фильмов
 const viewWatched = event => {
-  libraryFilms = getItemsInLocalStorage(el.FILMS_IN_WATCHED);
-  pagination.setTotalItems(libraryFilms.length);
-  changePage();
+  dataFilms = getItemsInLocalStorage(el.FILMS_IN_WATCHED);
+  pagination.movePageTo(1);
+  changeRender();
 };
 //показывает очередь просмотра фильмов
 const viewQueue = event => {
-  libraryFilms = getItemsInLocalStorage(el.FILMS_IN_QUEUE);
-  pagination.setTotalItems(libraryFilms.length);
-  changePage();
+  dataFilms = getItemsInLocalStorage(el.FILMS_IN_QUEUE);
+  pagination.movePageTo(1);
+  changeRender();
 };
 
 //обработчики событий
@@ -88,14 +84,14 @@ export const searchFilms = event => {
     renderError('Film name lenght contains less 3 symbols');
     return;
   }
-  changePage();
+  changeRender();
 };
 //срабатывает при ошибке запроса
 function renderError(error) {
   searchText = '';
   page = 1;
-  films = [];
-  viewGallery(films);
+  renderedFilms = [];
+  viewGallery(renderedFilms);
   pagination.reset(0);
 
   el.searchFormError.classList.remove('is-hidden');
@@ -105,52 +101,60 @@ function renderError(error) {
   });
 }
 //обновляет библоиотеку
-const renderLibray = () => {
-  const begin = (libraryPage - 1) * ITEMS_ON_PAGE;
-  const end = libraryPage * ITEMS_ON_PAGE;
-  const pageFilms = libraryFilms.slice(begin, end);
-  viewGallery(pageFilms);
+const renderLibrary = () => {
+  const begin = (page - 1) * ITEMS_ON_PAGE;
+  const end = page * ITEMS_ON_PAGE;
+  const pageFilms = dataFilms.slice(begin, end);
+  renderedFilms = makeGallery(pageFilms);
+  if (page == 1) {
+    pagination.setTotalItems(renderedFilms.length);
+  }
+  viewGallery(renderedFilms);
 };
 //срабатывает при успешном завершении запроса
 function renderReady(inputFilms, total_results) {
-  results = total_results;
-  if (page == 1) {
-    pagination.reset(results);
-  }
-  films = inputFilms;
-  if (films) {
-    viewGallery(films);
+  if (inputFilms) {
+    dataFilms = inputFilms;
+    renderedFilms = makeGallery(inputFilms);
+    //pagination.setTotalItems(renderedFilms.length);
+    if (page == 1) {
+      pagination.setTotalItems(renderedFilms.length);
+    }
+    viewGallery(renderedFilms);
   }
   hideLoader();
 }
+
+const changeRender = () => {
+  if (isLibrary) {
+    renderLibrary();
+  } else {
+    viewLoader();
+    if (isTopQuery) {
+      el.searchInput.value = '';
+      renderTopFilms(page, renderReady, renderError);
+    } else {
+      renderFoundByNameFilms(page, searchText, renderReady, renderError);
+    }
+  }
+};
+
 //срабатывает при смене страницы
 export const changePage = eventData => {
-  if (isLibrary) {
-    if (eventData) {
-      libraryPage = eventData.page;
-    } else {
-      pagination.movePageTo(libraryPage);
-      return;
-    }
-    renderLibray();
-    return;
-  }
   if (eventData) {
     page = eventData.page;
-  } else {
-    pagination.movePageTo(page);
-    return;
-  }
-  viewLoader();
-  if (isTopQuery) {
-    renderTopFilms(page, renderReady, renderError);
-  } else {
-    renderFoundByNameFilms(page, searchText, renderReady, renderError);
+    changeRender();
   }
 };
 
 //срабатывает при первой загрузке
 export const firstLoad = event => {
   pagination.on('beforeMove', changePage);
-  changePage();
+  changeRender();
+};
+
+//срабатывает при открытии модалки
+export const getFilm = filmId => {
+  const filmIndex = dataFilms.findIndex(e => e.id === filmId);
+  return dataFilms[filmIndex];
 };

@@ -1,14 +1,16 @@
 //элементы страницы
 import * as el from '../common/elements';
-// импорт функции для рендера разметки
-import makeGallery from './makeGallery';
-// импорт функции для показа модалки
-import { filmModalHandler } from '../modalFilm';
 
 //меняет разметку галереи и добавляет код открытия модалки
-const viewGallery = (films, isLibrary = false) => {
-  el.gallery.innerHTML = makeGallery(films, isLibrary);
-  filmModalHandler(films);
+const viewGallery = films => {
+  el.gallery.innerHTML = films;
+  if (window.pageYOffset > 0) {
+    window.scrollTo({
+      top: 250,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }
 };
 
 export default viewGallery;

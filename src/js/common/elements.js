@@ -10,6 +10,7 @@ export const libraryBtn = document.querySelector('.library');
 
 export const searchForm = document.querySelector('.header__search-form');
 export const searchBtn = document.querySelector('.header__form-btn');
+export const searchInput = document.getElementById('search-form-input');
 export const libraryBtns = document.querySelector('.header__buttons');
 
 export const btnWatched = document.getElementById('btn-watched');

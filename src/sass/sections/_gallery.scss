@@ -7,7 +7,7 @@
 
   @media screen and (min-width: 768px) {
     padding-top: 60px;
-    grid-template-columns: repeat(2, 293px);
+    grid-template-columns: repeat(2, 294px);
     row-gap: 30px;
     column-gap: 30px;
     align-content: center;
@@ -19,7 +19,6 @@
 
   .film__link {
     display: inline-block;
-
     > * {
       pointer-events: none;
     }
@@ -28,8 +27,17 @@
 
 .film__cover {
   border-radius: 5px;
+  width: 280px;
   height: 398px;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+
+  @media screen and (min-width: 768px) {
+    width: 294px;
+  }
+
+  @media screen and (min-width: 1024px) {
+    width: 274px;
+  }
 }
 
 .film__title,
@@ -39,6 +47,14 @@
 }
 
 .film__title {
+  max-width: 280px;
+  @media screen and (min-width: 768px) {
+    max-width: 294px;
+  }
+
+  @media screen and (min-width: 1024px) {
+    max-width: 274px;
+  }
   margin-top: 10px;
   color: getColor('text-secondary');
   text-transform: uppercase;

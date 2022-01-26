@@ -24,7 +24,7 @@ const filmCard = (film, isLibrary) => {
   return `<li class="gallery__card" data-modal-id=${id}>
   <a class="film__link" href="#">
     <img class="film__cover" src="${image}" alt="${title}" />
-    <h3 class="film__title">${title}</h3>
+    <p class="film__title">${title}</p>
     <div class="film__info">
       <span class="film__genre">${filmGenres}</span>
       <span class="film__year">&nbsp${release_date}</span>
