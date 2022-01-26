@@ -1,6 +1,6 @@
 import * as basicLightbox from 'basiclightbox';
 import 'basiclightbox/dist/basicLightbox.min.css';
-import { gallery, FILMS_IN_WATCHED, FILMS_IN_QUEUE } from './common/elements';
+import { gallery, FILMS_IN_WATCHED, FILMS_IN_QUEUE, body } from './common/elements';
 import * as ev from './common/events';
 import {
   addToLocalStorage,
@@ -39,7 +39,7 @@ const lightboxInstance = basicLightbox.create(modalTemplate, {
     const closeBtn = container.querySelector('.modal__close-btn');
     const btnWatched = container.querySelector('.modal-btn-watched');
     const btnQueue = container.querySelector('.modal-btn-queue');
-
+    body.classList.add('disable-scroll');
     btnWatched.addEventListener('click', ev.refreshLibrary.bind(null, instance));
     btnQueue.addEventListener('click', ev.refreshLibrary.bind(null, instance));
     btnWatched.addEventListener('click', addToWatchedQueueHandler);
@@ -64,7 +64,7 @@ const lightboxInstance = basicLightbox.create(modalTemplate, {
     const container = instance.element();
     const btnWatched = container.querySelector('.modal-btn-watched');
     const btnQueue = container.querySelector('.modal-btn-queue');
-
+    body.classList.remove('disable-scroll');
     btnWatched.removeEventListener('click', addToWatchedQueueHandler);
     btnQueue.removeEventListener('click', addToWatchedQueueHandler);
     btnWatched.removeEventListener('click', ev.refreshLibrary);
