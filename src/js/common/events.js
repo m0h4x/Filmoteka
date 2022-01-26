@@ -11,8 +11,6 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 // импорт функции для запроса на список самых популярных фильмов на сегодня
 import renderTopFilms from '../API/topFilmsComponent';
 import renderFoundByNameFilms from '../API/searchedByNameComponent';
-// импорт функции для показа модалки
-import { onCardClick } from '../modalFilm';
 
 //элементы страницы
 import * as el from './elements';
@@ -61,7 +59,6 @@ export const viewLibrary = event => {
   el.btnWatched.addEventListener('focus', focusWatched);
   el.btnQueue.addEventListener('focus', focusQueue);
   el.gallery.innerHTML = '';
-  el.gallery.removeEventListener('click', onCardClick);
   isLibrary = true;
   viewWatched();
   focusWatched();
