@@ -23,7 +23,6 @@ let page = 1;
 let isTopQuery = true;
 let isLibrary = false;
 let isWatched = true;
-let isPageUpdate = true;
 let results = 0;
 let dataFilms = [];
 let searchText = '';
@@ -59,9 +58,19 @@ export const viewLibrary = event => {
   el.btnQueue.addEventListener('focus', focusQueue);
   isLibrary = true;
   viewWatched();
+  focusWatched();
 };
-
-//показывает список просмотренных фильмов
+//меняет вид кнопки Watched
+export const focusWatched = () => {
+  el.btnWatched.classList.add('in-active');
+  el.btnQueue.classList.remove('in-active');
+};
+//меняет вид кнопки Queue
+export const focusQueue = () => {
+  el.btnWatched.classList.remove('in-active');
+  el.btnQueue.classList.add('in-active');
+};
+//показывает список просмотренных фильмов .
 const viewWatched = event => {
   dataFilms = getItemsInLocalStorage(el.FILMS_IN_WATCHED);
   pagination.movePageTo(1);
@@ -110,7 +119,6 @@ const renderLibrary = () => {
   const pageFilms = dataFilms.slice(begin, end);
   const renderedFilms = makeGallery(pageFilms);
   if (page == 1) {
-    isPageUpdate = false;
     pagination.reset(dataFilms.length);
   }
   viewGallery(renderedFilms);
@@ -123,7 +131,6 @@ function renderReady(inputFilms, total_results) {
     const renderedFilms = makeGallery(dataFilms);
     if (page == 1) {
       console.log(results);
-      isPageUpdate = false;
       pagination.reset(results);
     }
     viewGallery(renderedFilms);
@@ -147,11 +154,10 @@ const changeRender = () => {
 
 //срабатывает при смене страницы
 export const changePage = eventData => {
-  if (isPageUpdate) {
+  if (page != eventData.page) {
     page = eventData.page;
     changeRender();
   }
-  isPageUpdate = true;
 };
 
 //срабатывает при первой загрузке
