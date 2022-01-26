@@ -8,6 +8,7 @@ import { viewLoader, hideLoader } from '../loader';
 import pagination from '../pagination';
 // Импорт библиотеки уведомлений
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+
 // импорт функции для запроса на список самых популярных фильмов на сегодня
 import renderTopFilms from '../API/topFilmsComponent';
 import renderFoundByNameFilms from '../API/searchedByNameComponent';
@@ -21,7 +22,9 @@ import * as el from './elements';
 let page = 1;
 let isTopQuery = true;
 let isLibrary = false;
-let renderedFilms = [];
+let isWatched = true;
+let isPageUpdate = true;
+let results = 0;
 let dataFilms = [];
 let searchText = '';
 const ITEMS_ON_PAGE = 20;
@@ -90,8 +93,8 @@ export const searchFilms = event => {
 function renderError(error) {
   searchText = '';
   page = 1;
-  renderedFilms = [];
-  viewGallery(renderedFilms);
+
+  viewGallery([]);
   pagination.reset(0);
 
   el.searchFormError.classList.remove('is-hidden');
@@ -105,9 +108,10 @@ const renderLibrary = () => {
   const begin = (page - 1) * ITEMS_ON_PAGE;
   const end = page * ITEMS_ON_PAGE;
   const pageFilms = dataFilms.slice(begin, end);
-  renderedFilms = makeGallery(pageFilms);
+  const renderedFilms = makeGallery(pageFilms);
   if (page == 1) {
-    pagination.setTotalItems(renderedFilms.length);
+    isPageUpdate = false;
+    pagination.reset(dataFilms.length);
   }
   viewGallery(renderedFilms);
 };
@@ -115,10 +119,12 @@ const renderLibrary = () => {
 function renderReady(inputFilms, total_results) {
   if (inputFilms) {
     dataFilms = inputFilms;
-    renderedFilms = makeGallery(inputFilms);
-    //pagination.setTotalItems(renderedFilms.length);
+    results = total_results;
+    const renderedFilms = makeGallery(dataFilms);
     if (page == 1) {
-      pagination.setTotalItems(renderedFilms.length);
+      console.log(results);
+      isPageUpdate = false;
+      pagination.reset(results);
     }
     viewGallery(renderedFilms);
   }
@@ -141,10 +147,11 @@ const changeRender = () => {
 
 //срабатывает при смене страницы
 export const changePage = eventData => {
-  if (eventData) {
+  if (isPageUpdate) {
     page = eventData.page;
     changeRender();
   }
+  isPageUpdate = true;
 };
 
 //срабатывает при первой загрузке
