@@ -9,8 +9,11 @@ export const ApiService = class {
     return response.data;
   }
   static async getGenres() {
-    const response = await axios.get(`${API.BASIC_URL}/3/genre/movie/list?api_key=${API.KEY}`);
-    return response.data.genres;
+    if (!ApiService.filmGenres) {
+      const response = await axios.get(`${API.BASIC_URL}/3/genre/movie/list?api_key=${API.KEY}`);
+      ApiService.filmGenres = response.data.genres;
+    }
+    return ApiService.filmGenres;
   }
   static async getFilmInfo(id) {
     const response = await axios.get(
@@ -24,4 +27,5 @@ export const ApiService = class {
     );
     return response.data;
   }
+  static filmGenres;
 };
