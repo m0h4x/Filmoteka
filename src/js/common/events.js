@@ -76,9 +76,9 @@ export const focusQueue = () => {
 export const refreshLibrary = (instance, event) => {
   let isCurrentLibraryWatched = false;
   if (isLibrary) {
-    console.log(1);
-    const elem = event.target;
-    const currText = elem.textContent;
+    //получаем текст кнопки
+    const currText = event.target.textContent;
+    //проверяем какая кнопка нажата
     switch (currText) {
       case el.RM_FROM_WATCHED:
         removeFromLocalStorage(el.FILMS_IN_WATCHED, currFilm);
@@ -90,6 +90,7 @@ export const refreshLibrary = (instance, event) => {
         dataFilms = getItemsInLocalStorage(el.FILMS_IN_QUEUE);
         break;
     }
+    //проверяем совпадает ли вид библиотеки с кнопкой
     if (isCurrentLibraryWatched == isWatched) {
       changeRender();
       instance.close();
@@ -136,10 +137,9 @@ function renderError(error) {
   pagination.reset(0);
 
   el.searchFormError.classList.remove('is-hidden');
-  Notify.failure(error, () => {
-    el.searchFormError.classList.add('is-hidden');
-    hideLoader();
-  });
+  Notify.failure(error);
+  el.searchFormError.classList.add('is-hidden');
+  hideLoader();
 }
 //обновляет библоиотеку
 const renderLibrary = () => {
