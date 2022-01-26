@@ -1,7 +1,7 @@
 // импорт функции для показа галереи
 import viewGallery from '../gallery/viewGallery';
 //импорт функций хранилища
-import { getItemsInLocalStorage } from '../storage/storage';
+import { getItemsInLocalStorage, removeFromLocalStorage } from '../storage/storage';
 // Импорт лоадера
 import { viewLoader, hideLoader } from '../loader';
 // Импорт пагинации
@@ -25,8 +25,10 @@ let isLibrary = false;
 let isWatched = true;
 let results = 0;
 let dataFilms = [];
+let currFilm;
 let searchText = '';
-const ITEMS_ON_PAGE = 20;
+const ITEMS_ON_LIBRARY_PAGE = 9;
+const ITEMS_ON_MAIN_PAGE = 20;
 
 //функции меняющие вид страницы
 //показывает главную
@@ -70,14 +72,41 @@ export const focusQueue = () => {
   el.btnWatched.classList.remove('in-active');
   el.btnQueue.classList.add('in-active');
 };
+//обновляет список фильмов в библиотеке.
+export const refreshLibrary = (instance, event) => {
+  let isCurrentLibraryWatched = false;
+  if (isLibrary) {
+    console.log(1);
+    const elem = event.target;
+    const currText = elem.textContent;
+    switch (currText) {
+      case el.RM_FROM_WATCHED:
+        removeFromLocalStorage(el.FILMS_IN_WATCHED, currFilm);
+        dataFilms = getItemsInLocalStorage(el.FILMS_IN_WATCHED);
+        isCurrentLibraryWatched = true;
+        break;
+      case el.RM_FROM_QUEUE:
+        removeFromLocalStorage(el.FILMS_IN_QUEUE, currFilm);
+        dataFilms = getItemsInLocalStorage(el.FILMS_IN_QUEUE);
+        break;
+    }
+    if (isCurrentLibraryWatched == isWatched) {
+      changeRender();
+      instance.close();
+    }
+  }
+};
+
 //показывает список просмотренных фильмов .
-const viewWatched = event => {
+export const viewWatched = event => {
+  isWatched = true;
   dataFilms = getItemsInLocalStorage(el.FILMS_IN_WATCHED);
   pagination.movePageTo(1);
   changeRender();
 };
 //показывает очередь просмотра фильмов
-const viewQueue = event => {
+export const viewQueue = event => {
+  isWatched = false;
   dataFilms = getItemsInLocalStorage(el.FILMS_IN_QUEUE);
   pagination.movePageTo(1);
   changeRender();
@@ -114,11 +143,12 @@ function renderError(error) {
 }
 //обновляет библоиотеку
 const renderLibrary = () => {
-  const begin = (page - 1) * ITEMS_ON_PAGE;
-  const end = page * ITEMS_ON_PAGE;
+  const begin = (page - 1) * ITEMS_ON_LIBRARY_PAGE;
+  const end = page * ITEMS_ON_LIBRARY_PAGE;
   const pageFilms = dataFilms.slice(begin, end);
   const renderedFilms = makeGallery(pageFilms);
   if (page == 1) {
+    pagination.setItemsPerPage(ITEMS_ON_LIBRARY_PAGE);
     pagination.reset(dataFilms.length);
   }
   viewGallery(renderedFilms);
@@ -130,6 +160,7 @@ function renderReady(inputFilms, total_results) {
     results = total_results;
     const renderedFilms = makeGallery(dataFilms);
     if (page == 1) {
+      pagination.setItemsPerPage(ITEMS_ON_MAIN_PAGE);
       pagination.reset(results);
     }
     viewGallery(renderedFilms);
@@ -168,5 +199,6 @@ export const firstLoad = event => {
 //срабатывает при открытии модалки
 export const getFilm = filmId => {
   const filmIndex = dataFilms.findIndex(e => e.id === filmId);
-  return dataFilms[filmIndex];
+  currFilm = dataFilms[filmIndex];
+  return currFilm;
 };
