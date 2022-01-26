@@ -112,7 +112,7 @@ const filmModalHandler = (getFilm, event) => {
   if (card.classList.contains('film__link')) {
     lightboxInstance.show(instance => {
       const filmId = parseInt(card.closest('.gallery__card').dataset.modalId);
-      const film = getFilm(filmId);
+      film = getFilm(filmId);
 
       const image = film.poster_path ? getImageUrl() + film.poster_path : defaultImage;
 
