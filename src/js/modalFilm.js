@@ -7,7 +7,7 @@ import {
   checkItemInLocalStorage,
   removeFromLocalStorage,
 } from './storage/storage';
-
+import { ApiService } from './BLL/themoviedb';
 import defaultImage from '/images/no-cover.jpg';
 
 // global values
@@ -113,6 +113,9 @@ const filmModalHandler = (getFilm, event) => {
     lightboxInstance.show(instance => {
       const filmId = parseInt(card.closest('.gallery__card').dataset.modalId);
       film = getFilm(filmId);
+      /*       const filmInfo = ApiService.getFilmInfo(filmId).then(info => {
+        console.log(info.videos);
+      }); */
 
       const image = film.poster_path ? getImageUrl() + film.poster_path : defaultImage;
 

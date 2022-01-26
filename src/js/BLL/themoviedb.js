@@ -19,7 +19,7 @@ export const ApiService = class {
     const response = await axios.get(
       `${API.BASIC_URL}/3/movie/${id}?api_key=${API.KEY}&append_to_response=videos`,
     );
-    return response.data.genres;
+    return response.data;
   }
   static async fetchMoviesResultsByName(page = 1, searchQuery = '') {
     const response = await axios.get(
