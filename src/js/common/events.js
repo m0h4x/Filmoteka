@@ -146,7 +146,7 @@ const renderLibrary = () => {
   const begin = (page - 1) * ITEMS_ON_LIBRARY_PAGE;
   const end = page * ITEMS_ON_LIBRARY_PAGE;
   const pageFilms = dataFilms.slice(begin, end);
-  const renderedFilms = makeGallery(pageFilms);
+  const renderedFilms = makeGallery(pageFilms, true);
   if (page == 1) {
     pagination.setItemsPerPage(ITEMS_ON_LIBRARY_PAGE);
     pagination.reset(dataFilms.length);
