@@ -162,6 +162,9 @@ function renderReady(inputFilms, total_results) {
     if (page == 1) {
       pagination.setItemsPerPage(ITEMS_ON_MAIN_PAGE);
       pagination.reset(results);
+      if (!isTopQuery) {
+        Notify.success(`Find ${total_results} films`);
+      }
     }
     viewGallery(renderedFilms);
   }
