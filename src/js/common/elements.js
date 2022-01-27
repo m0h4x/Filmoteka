@@ -26,7 +26,7 @@ export const pagination = document.getElementById('pagination');
 export const backdrop = document.querySelector('.modal__backdrop');
 export const modalTemplate = document.querySelector('#modalFilmTemplate');
 export const modalFilm = document.querySelector('.modal__container');
-export const openCommandModalBtn = document.querySelector('[command-modal-open]');
+export const openCommandModalBtn = document.querySelector('.team__modal-open');
 export const closeCommandModalBtn = document.querySelector('.team__container__icon-box');
 export const modalCommand = document.querySelector('.team__container');
 // storage keys
