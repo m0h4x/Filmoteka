@@ -85,6 +85,9 @@ export const refreshLibrary = (instance, event) => {
         dataFilms = getItemsInLocalStorage(el.FILMS_IN_WATCHED);
         isCurrentLibraryWatched = true;
         break;
+      case el.ADD_TO_WATCHED:
+        isCurrentLibraryWatched = true;
+        break;
       case el.RM_FROM_QUEUE:
         removeFromLocalStorage(el.FILMS_IN_QUEUE, currFilm);
         dataFilms = getItemsInLocalStorage(el.FILMS_IN_QUEUE);
